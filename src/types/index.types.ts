@@ -9,7 +9,7 @@ interface Category {
 export interface Data {
   id: number;
   title: string;
-  price: number;
+  actual_price: number;
   description: string;
   images: Array<string>[];
   creationAt: string;

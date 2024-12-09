@@ -3,6 +3,7 @@ import RootLayout from "./RootLayout";
 import Category from "@/components/Category";
 import AllProducts from "@/components/AllProducts";
 import SpecialBanner from "@/components/SpecialBanner";
+import About from "@/components/About";
 
 const Home = () => {
   return (
@@ -16,8 +17,7 @@ const Home = () => {
         <div className="md:hidden">
           <Category />
         </div>
-
-        {/* <About /> */}
+        <About />
         <AllProducts />
       </div>
     </RootLayout>

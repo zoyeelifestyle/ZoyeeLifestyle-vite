@@ -1,7 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { authStore } from "@/store/authStore";
 import RootLayout from "./RootLayout";
 import { useEffect, useState } from "react";
-import { Data } from "@/types/index.types";
 import { getFilteredData, paginationData } from "@/utils/helper";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import PageBanner from "@/components/PageBanner";
@@ -17,7 +17,7 @@ const Shop = () => {
   const [productPerPage, setProductPerPage] = useState(16);
   const [totalPossiblePage, setTotalPossiblePage] = useState(0);
 
-  const [filterData, setFilterData] = useState<Data[]>([]);
+  const [filterData, setFilterData] = useState<any[]>([]);
 
   const [filter, setFilter] = useState<string>("Filter");
 
@@ -73,29 +73,39 @@ const Shop = () => {
               setProductPerPage={setProductPerPage}
               filter={filter}
               setFilter={setFilter}
-              start={productSlice.start + 1}
-              end={productSlice.end}
+              start={allProducts.length ? productSlice.start + 1 : 0}
+              end={
+                allProducts.length > productSlice.end
+                  ? productSlice.end
+                  : allProducts.length
+              }
               total={allProducts.length}
             />
-            <div className="w-full flex justify-center items-center !my-12">
+            <div className="w-full flex justify-center items-center my-10 lg:px-28">
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 px-3 md:px-16">
                 {(filterData.length > 0 ? filterData : allProducts)
                   .slice(productSlice.start, productSlice.end)
                   .map((item) => {
                     return (
                       <ProductCard
-                        productId={item.id}
-                        imgUrl={item.images[0]}
-                        title={item.title}
-                        price={item.price}
-                        discount={20}
-                        category={item.category.name}
-                        key={item.id}
+                        productId={item?._id}
+                        title={item?.title}
+                        price={item?.actual_price}
+                        discount_price={item?.discount_price}
+                        discount={item?.discount}
+                        category={item?.category?.title}
+                        key={item?._id}
+                        imageDatas={item?.images}
                       />
                     );
                   })}
               </div>
             </div>
+            {allProducts.length == 0 && (
+              <div className="text-center w-full mb-16">
+                <p className="">No Products</p>
+              </div>
+            )}
 
             {allProducts.length > productPerPage && (
               <PaginationSection

@@ -7,8 +7,11 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { removeExtra } from "@/utils/helper";
+import SketetonWrapper from "./SkeletonWrapper";
+import { authStore } from "@/store/authStore";
 
 const SingleProductBanner = ({ productName }: { productName: string }) => {
+  const { isLoading } = authStore();
   return (
     <div className="w-full bg-pink-50 px-4 sm:px-6 md:px-7 py-4 sm:py-5 md:py-6">
       <Breadcrumb>
@@ -33,7 +36,9 @@ const SingleProductBanner = ({ productName }: { productName: string }) => {
           <BreadcrumbSeparator className="mx-2 text-sm sm:text-base md:text-lg" />
           <BreadcrumbItem>
             <BreadcrumbPage className="text-sm sm:text-base md:text-lg">
-              {removeExtra(productName)}
+              <SketetonWrapper isLoading={isLoading}>
+                {removeExtra(productName)}
+              </SketetonWrapper>
             </BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>

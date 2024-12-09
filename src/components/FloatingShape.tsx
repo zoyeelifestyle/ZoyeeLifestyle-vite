@@ -10,7 +10,7 @@ interface Props {
 const FloatingShape = ({ color, size, top, left, delay }: Props) => {
   return (
     <motion.div
-      className={`absolute rounded-full ${color} ${size} opacity-20 blur-xl`}
+      className={`absolute rounded-full ${color} ${size} opacity-70`}
       style={{ top, left }}
       animate={{
         y: ["0%", "100%", "0%"],

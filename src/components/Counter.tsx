@@ -1,23 +1,32 @@
 import { Minus, Plus } from "lucide-react";
-import { useState } from "react";
 import toast from "react-hot-toast";
 
-const Counter = ({ total }: { total: number }) => {
-  const [count, setCount] = useState(1);
+const Counter = ({
+  total,
+  quantity,
+  setQuantity,
+}: {
+  total: number;
+  quantity: number;
+  setQuantity: (value: number) => void;
+}) => {
+  // const [count, setCount] = useState(1);
 
   const increment = () => {
-    if (total > count) {
-      setCount((prev) => prev + 1);
-    } else {
-      toast(`Only ${total} Stocks We Have`, {
-        icon: "⚠️",
-      });
-    }
+    // if (total > count) {
+    //   setCount((prev) => prev + 1);
+    // } else {
+    //   toast(`Only ${total} Stocks We Have`, {
+    //     icon: "⚠️",
+    //   });
+    // }
+
+    setQuantity(quantity + 1);
   };
 
   const decrement = () => {
-    if (count > 1) {
-      setCount((prev) => prev - 1);
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
     } else {
       toast("Quantity Should Be Greater Than 1", {
         icon: "⚠️",
@@ -35,7 +44,7 @@ const Counter = ({ total }: { total: number }) => {
           >
             <Minus className="w-5 h-5 sm:w-6 sm:h-6" />
           </div>
-          <p className="font-extrabold text-lg sm:text-xl">{count}</p>
+          <p className="font-extrabold text-lg sm:text-xl">{quantity}</p>
           <div
             onClick={increment}
             className="px-3 sm:px-4 py-2 cursor-pointer transition-all duration-200 ease-in-out hover:bg-gray-300 rounded-md"

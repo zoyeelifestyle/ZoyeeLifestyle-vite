@@ -12,9 +12,7 @@ const AuthLayout = ({ children }: { children: ReactNode }) => {
           alt="Auth Image"
           className="w-full h-full object-cover absolute top-0 left-0"
         />
-
         <div className="absolute inset-0 bg-black opacity-30"></div>
-
         <div className="absolute cursor-pointer top-5 left-5 bg-white px-4 py-2 rounded-full shadow-md">
           <AuthLogo width={100} height={20} />
         </div>

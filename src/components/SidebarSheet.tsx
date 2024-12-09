@@ -26,7 +26,7 @@ const SidebarSheet = ({ cartLength }: { cartLength: number }) => {
       <SheetContent>
         <SheetHeader>
           <SheetTitle>
-            <AuthLogo width={200} height={40} />
+            <AuthLogo width={150} height={20} />
           </SheetTitle>
           <div className="text-left ml-4 pt-4">
             {/* Links Animation */}
@@ -66,7 +66,7 @@ const SidebarSheet = ({ cartLength }: { cartLength: number }) => {
             {user ? (
               <Link to={"/profile"}>
                 <UserCircle
-                  className={`w-6 h-6 lg:w-7 lg:h-7 cursor-pointer ${
+                  className={`w-7 h-7 cursor-pointer ${
                     location.pathname === "/profile" && "text-primary"
                   }`}
                 />
@@ -112,7 +112,7 @@ const SidebarSheet = ({ cartLength }: { cartLength: number }) => {
                 className="relative"
               >
                 <ShoppingBagIcon
-                  className={`w-6 h-6 lg:w-7 lg:h-7 cursor-pointer ${
+                  className={`w-7 h-7 cursor-pointer ${
                     pathname === "/cart" && "text-pink-600"
                   }`}
                 />

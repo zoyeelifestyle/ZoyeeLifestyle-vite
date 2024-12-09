@@ -43,10 +43,7 @@ const SignIn = () => {
           <p className="text-gray-500 text-center mb-6 capitalize font-medium">
             Sign in to <span className="text-pink-600">Zoyee LifeStyle</span>
           </p>
-          <button className="w-full py-3 bg-gray-100 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-200 transition mb-4">
-            Sign In with Google
-          </button>
-          <div className="text-center text-gray-400 mb-4">or</div>
+
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label

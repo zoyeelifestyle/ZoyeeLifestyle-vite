@@ -1,11 +1,13 @@
 import { useFormik } from "formik";
 import AuthLayout from "./AuthLayout";
-
 import { motion } from "framer-motion";
 import { signUpFormSchema } from "@/schemas/schema";
 import { Link } from "react-router-dom";
+import { authStore } from "@/store/authStore";
 
 const SignUp = () => {
+  const { signup } = authStore();
+
   const formik = useFormik({
     initialValues: {
       username: "",
@@ -14,8 +16,8 @@ const SignUp = () => {
     },
     validationSchema: signUpFormSchema,
     onSubmit: async (values) => {
+      await signup(values.username, values.email, values.password);
       console.log(values);
-      await new Promise((resolve) => setTimeout(resolve, 1000));
     },
   });
 
@@ -39,7 +41,7 @@ const SignUp = () => {
         initial="hidden"
         animate="visible"
         exit="exit"
-        className="flex w-full justify-center items-center "
+        className="flex w-full justify-center items-center"
       >
         <motion.div
           variants={{
@@ -58,12 +60,12 @@ const SignUp = () => {
             <motion.div
               variants={{
                 hidden: { x: -50, opacity: 0 },
-                visible: { x: 0, opacity: 1, transition: { duration: 0.4 } },
+                visible: { x: 0, opacity: 1, transition: { duration: 0.5 } },
               }}
             >
               <label
                 htmlFor="username"
-                className="block text-sm font-medium text-gray-700"
+                className="block text-sm font-semibold text-gray-700"
               >
                 Username<span className="text-red-500">*</span>
               </label>
@@ -73,7 +75,7 @@ const SignUp = () => {
                 placeholder="Enter your username"
                 value={values.username}
                 onChange={handleChange}
-                className="w-full mt-1 px-4 py-2 border rounded-md shadow-sm focus:ring-primary focus:border-primary sm:text-sm"
+                className="w-full mt-1 px-4 py-2 border text-gray-600  focus:ring-1 outline-none rounded-md shadow-sm focus:ring-pink-600 focus:border-pink-600 text-xs md:text-sm font-semibold"
               />
               {touched.username && errors.username && (
                 <p className="mt-1 text-red-500 text-sm">{errors.username}</p>
@@ -87,7 +89,7 @@ const SignUp = () => {
             >
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
+                className="block text-sm font-semibold text-gray-700"
               >
                 Email Address<span className="text-red-500">*</span>
               </label>
@@ -97,7 +99,7 @@ const SignUp = () => {
                 placeholder="Enter your email"
                 value={values.email}
                 onChange={handleChange}
-                className="w-full mt-1 px-4 py-2 border rounded-md shadow-sm focus:ring-primary focus:border-primary sm:text-sm"
+                className="w-full mt-1 px-4 py-2 border text-gray-600 rounded-md  focus:ring-1 outline-none shadow-sm focus:ring-pink-600 focus:border-pink-600 text-xs md:text-sm font-semibold"
               />
               {touched.email && errors.email && (
                 <p className="mt-1 text-red-500 text-sm">{errors.email}</p>
@@ -111,7 +113,7 @@ const SignUp = () => {
             >
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-gray-700"
+                className="block text-sm font-semibold text-gray-700"
               >
                 Password<span className="text-red-500">*</span>
               </label>
@@ -121,7 +123,7 @@ const SignUp = () => {
                 placeholder="Enter your password"
                 value={values.password}
                 onChange={handleChange}
-                className="w-full mt-1 px-4 py-2 border rounded-md shadow-sm focus:ring-primary focus:border-primary sm:text-sm"
+                className="w-full mt-1 px-4 py-2 border rounded-md text-gray-600 shadow-sm focus:ring-pink-600 focus:ring-1 outline-none focus:border-pink-600 text-xs md:text-sm font-semibold"
               />
               {touched.password && errors.password && (
                 <p className="mt-1 text-red-500 text-sm">{errors.password}</p>

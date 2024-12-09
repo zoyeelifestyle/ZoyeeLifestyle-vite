@@ -50,13 +50,11 @@ const Navbar = () => {
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="w-full flex justify-between items-center px-6 py-4 lg:px-12 lg:py-6 bg-white shadow-md"
+      className="w-full sticky top-0 left-0  z-50 flex justify-between items-center px-6 py-4 lg:px-12 lg:py-4 bg-white shadow-md"
     >
       {/* Logo Section */}
       <Link to="/">
-        <div className="w-10 h-10">
-          <AuthLogo width={200} height={40} />
-        </div>
+        <AuthLogo width={100} height={30} />
       </Link>
 
       {/* Navigation Links */}
@@ -93,7 +91,7 @@ const Navbar = () => {
             <Link to={"/profile"}>
               <UserCircle
                 className={`w-6 h-6 lg:w-7 lg:h-7 cursor-pointer ${
-                  location.pathname === "/profile" && "text-primary"
+                  location.pathname === "/profile" && "text-pink-600"
                 }`}
               />
             </Link>

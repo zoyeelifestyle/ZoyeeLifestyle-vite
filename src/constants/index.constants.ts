@@ -62,3 +62,37 @@ export const SPECIALBANNER = [
     subtitle: "Dedicated support",
   },
 ];
+
+export const FOOTERLINKS = [
+  {
+    label: "Home",
+    link: "/",
+  },
+  {
+    label: "Shop",
+    link: "/shop",
+  },
+  {
+    label: "About",
+    link: "/#about",
+  },
+  {
+    label: "Contact",
+    link: "/contact",
+  },
+];
+
+export const FOOTERHELP = [
+  {
+    label: "Return & Refund",
+    link: "/return-&-refund",
+  },
+  {
+    label: "Terms & Conditions",
+    link: "/terms",
+  },
+  {
+    label: "Privacy Policy",
+    link: "/privacy-policy",
+  },
+];
