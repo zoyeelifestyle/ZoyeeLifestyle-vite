@@ -560,7 +560,7 @@ export const authStore = create<AuthStore>((set) => ({
     }
   },
 
-  newUserAddress: async (userId, newAddress) => {
+  newUserAddress: async () => {
     set({ isLoading: true, error: null });
   },
 
@@ -616,6 +616,7 @@ export const authStore = create<AuthStore>((set) => ({
   profile,
   addresses[]->{
     _id,
+    username,
     address1, 
     address2,
     phone,
@@ -624,6 +625,16 @@ export const authStore = create<AuthStore>((set) => ({
     state,
     zipCode,
     country
+  },
+  usedCoupons[]-> {
+  _id,
+  couponCode,
+  discountType,
+  discountValue,
+  singleUsePerCustomer,
+  
+couponDescription,
+isActive
   }
 }
 
@@ -657,14 +668,13 @@ export const authStore = create<AuthStore>((set) => ({
   handleBuyNow: async (productDetails) => {
     set({ isLoading: true, error: null });
     try {
-      const { product, userInfo } = productDetails;
+      const { product, userInfo, total, appliedCoupon, shippingAddress } =
+        productDetails;
       const finalData = {
-        totalPrice: product?.price,
-        ProductName:
-          Object.keys(product).length - 1 == 1
-            ? "Single Product"
-            : "Mutliple Product",
-        firstName: userInfo.fullName,
+        totalPrice: total,
+        productName:
+          product.length == 1 ? "Single Product" : "Multiple Products",
+        firstName: shippingAddress.username,
         email: userInfo.email,
       };
       console.log("final", finalData);
@@ -673,15 +683,17 @@ export const authStore = create<AuthStore>((set) => ({
         "http://localhost:5000/api/create-payu-order",
         {
           price: finalData?.totalPrice,
-          productName: finalData?.ProductName,
+          productName: finalData?.productName,
           email: finalData?.email,
           firstName: finalData?.firstName,
           product: product,
           user: userInfo,
+          shippingAddress,
+          appliedCoupon,
         }
       );
       if (response.data.paymentData && response.data.payUrl) {
-        console.log("sdsdsfsf", response.data);
+        // console.log("sdsdsfsf", response.data);
 
         await processOrder(response.data);
       } else {
@@ -689,7 +701,7 @@ export const authStore = create<AuthStore>((set) => ({
       }
 
       set({ isLoading: false });
-      console.log("Payment", response.data);
+      // console.log("Payment", response.data);
     } catch (error: any) {
       set({ isLoading: false, error: error.message || "Error Buying Product" });
       throw error;
@@ -772,7 +784,6 @@ export const authStore = create<AuthStore>((set) => ({
       `;
 
       const response = await client.fetch(checkCouponquery, { couponCode });
-      console.log(response);
 
       set({ isLoading: false });
 

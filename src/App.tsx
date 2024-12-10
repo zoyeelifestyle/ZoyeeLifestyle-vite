@@ -15,7 +15,7 @@ import ReturnRefund from "./Pages/Root/ReturnRefund";
 import CategoryProducts from "./Pages/Root/CategoryProducts";
 import Success from "./Pages/Root/Success";
 import Failure from "./Pages/Root/Failure";
-import OrderDetails from "./Pages/Root/OrderDetails";
+// import OrderDetails from "./Pages/Root/OrderDetails";
 import ShippingDetails from "./Pages/Root/ShippingDetails";
 import SignIn from "./Pages/Auth/SignIn";
 import SignUp from "./Pages/Auth/SignUp";
@@ -23,14 +23,14 @@ import SignUp from "./Pages/Auth/SignUp";
 import UserProfile from "./Pages/Root/UserProfile";
 
 // Protected Route
-// const ProtectedRoute = ({ children }: { children: ReactNode }) => {
-//   const { isAuthenticated } = authStore();
+const ProtectedRoute = ({ children }: { children: ReactNode }) => {
+  const { isAuthenticated } = authStore();
 
-//   if (!isAuthenticated) {
-//     return <Navigate to="/sign-in" replace />;
-//   }
-//   return children;
-// };
+  if (!isAuthenticated) {
+    return <Navigate to="/sign-in" replace />;
+  }
+  return children;
+};
 
 const OnlyForProfilePage = ({ children }: { children: ReactNode }) => {
   const { isAuthenticated } = authStore();
@@ -97,7 +97,7 @@ const App = () => {
         <Route path="/failure" element={<Failure />} />
 
         <Route path="/cart" element={<Cart />} />
-        <Route path="/getOrderDetail" element={<OrderDetails />} />
+        {/* <Route path="/getOrderDetail" element={<OrderDetails />} /> */}
 
         <Route path="/shop" element={<Shop />} />
         <Route path="/shop/:productId" element={<SingleProduct />} />
@@ -105,7 +105,15 @@ const App = () => {
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms" element={<Terms />} />
         <Route path="/return-&-refund" element={<ReturnRefund />} />
-        <Route path="/shipping-details/:param" element={<ShippingDetails />} />
+
+        <Route
+          path="/shipping-details/:param"
+          element={
+            <ProtectedRoute>
+              <ShippingDetails />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </div>
   );

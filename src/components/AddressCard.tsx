@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 
 // Defining TypeScript types for props
 interface AddressCardProps {
+  username: string;
   address1: string;
   address2: string;
   city: string;
@@ -23,6 +24,7 @@ interface AddressCardProps {
 }
 
 const AddressCard = ({
+  username,
   phone,
   address1,
   address2,
@@ -87,6 +89,7 @@ const AddressCard = ({
     // TODO: Implement edit functionality
 
     setSelectedFormData({
+      username,
       address1,
       address2,
       city,
@@ -102,8 +105,9 @@ const AddressCard = ({
 
   return (
     <div className="bg-white border rounded-lg shadow-lg p-4 mb-4 relative hover:shadow-xl transition duration-300 ease-out">
-      <h3 className="font-semibold text-lg">{address1}</h3>
-      <h3 className="font-semibold text-lg">{address2}</h3>
+      <h2 className="font-semibold text-xl">{username}</h2>
+      <h3 className=" text-lg">{address1}</h3>
+      <h3 className=" text-lg">{address2}</h3>
 
       <div className="flex items-center gap-2 text-sm">
         <p className="capitalize">{street}</p>

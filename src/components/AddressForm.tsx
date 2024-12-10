@@ -31,6 +31,7 @@ const AddressForm = ({
     country: selectedFormData?.country || "",
     zipcode: selectedFormData?.zipcode || "",
     phoneNumber: selectedFormData?.phoneNumber || "",
+    username: selectedFormData?.username || "",
   });
 
   const { getLogo } = authStore();
@@ -56,8 +57,16 @@ const AddressForm = ({
   };
 
   const handleEditAddress = async (addressId: string) => {
-    const { address1, street, city, state, zipcode, country, phoneNumber } =
-      formData;
+    const {
+      address1,
+      street,
+      city,
+      state,
+      zipcode,
+      country,
+      phoneNumber,
+      username,
+    } = formData;
 
     if (
       !address1 ||
@@ -66,7 +75,8 @@ const AddressForm = ({
       !zipcode ||
       !country ||
       !phoneNumber ||
-      !state
+      !state ||
+      !username
     ) {
       toast.error("Please fill all the required Fields");
     } else {
@@ -83,6 +93,7 @@ const AddressForm = ({
             state,
             zipCode: zipcode,
             country,
+            username,
           })
           .commit();
 
@@ -98,6 +109,7 @@ const AddressForm = ({
             state,
             zipCode: zipcode,
             country,
+            username,
             _id: addressId,
           },
           addressId
@@ -113,8 +125,16 @@ const AddressForm = ({
   };
 
   const handleSubmit = async () => {
-    const { address1, street, city, state, zipcode, country, phoneNumber } =
-      formData;
+    const {
+      address1,
+      street,
+      city,
+      state,
+      zipcode,
+      country,
+      phoneNumber,
+      username,
+    } = formData;
 
     if (
       !address1 ||
@@ -123,13 +143,14 @@ const AddressForm = ({
       !zipcode ||
       !country ||
       !phoneNumber ||
-      !state
+      !state ||
+      !username
     ) {
       toast.error("Please fill all the required Fields");
     } else {
       setIsLoading(true);
       try {
-        console.log("userId", userId);
+        // console.log("userId", userId);
 
         const address = await client.create({
           _type: "address",
@@ -141,6 +162,7 @@ const AddressForm = ({
           state: formData.state,
           zipCode: formData.zipcode,
           country: formData.country,
+          username: formData.username,
         });
 
         const addressReference = {
@@ -175,6 +197,23 @@ const AddressForm = ({
         </SketetonWrapper>
       </div>
       <div>
+        <div className="mb-4">
+          <label
+            htmlFor="username"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Name<span className="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            value={formData.username}
+            onChange={handleChange}
+            className="mt-1 p-2 w-full border border-gray-300 rounded-sm outline-pink-300"
+            required
+          />
+        </div>
         <div className="mb-4">
           <label
             htmlFor="address1"

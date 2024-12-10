@@ -26,6 +26,7 @@ const UserProfile = () => {
   };
 
   const [selectedFormData, setSelectedFormData] = useState({
+    username: "",
     address1: "",
     address2: "",
     city: "",
@@ -169,6 +170,7 @@ const UserProfile = () => {
                     country: "",
                     zipcode: "",
                     phoneNumber: "",
+                    username: "",
                   });
                   setIsPopupOpen((prev) => !prev);
                 }}

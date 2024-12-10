@@ -19,6 +19,7 @@ const AddAddress = ({
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 my-10">
       {addresses?.map((item) => (
         <AddressCard
+          username={item?.username}
           key={item._id}
           address1={item?.address1}
           address2={item?.address2}

@@ -11,30 +11,64 @@ import { calculateDiscountedPrice } from "@/utils/helper";
 const CheckoutProduct = ({
   productData,
   total,
+  setAppliedCoupon,
 }: {
   productData: any;
   total: number;
+  setAppliedCoupon: (value: any) => void;
 }) => {
   const [allProductDatas, setAllProductDatas] = useState<any>([]);
 
   const [totalPrice, setTotalPrice] = useState(0);
 
-  const { isLoading, applyCoupon } = authStore();
+  const { isLoading, applyCoupon, user, getUserDataFromSanity } = authStore();
 
   const [couponCode, setCouponCode] = useState("");
   const [couponData, setCouponData] = useState<any>("");
+  const [userData, setUserData] = useState<any | null>(null);
+
+  useEffect(() => {
+    const fetch = async () => {
+      if (user && user.id) {
+        try {
+          const data = await getUserDataFromSanity(user.id);
+
+          setUserData(data[0]);
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+        }
+      }
+    };
+    fetch();
+  }, [user]);
 
   const checkCoupon = async () => {
     if (couponCode.length === 0) {
       toast.error("Please Enter Coupon");
     } else {
       const couponData = await applyCoupon(couponCode);
+      const couponId = couponData?._id;
+
+      const userCoupon = userData?.usedCoupons;
+      const filterCoupon = userCoupon.filter(
+        (coupon: any) => coupon._id === couponId
+      );
+
+      if (filterCoupon.length) {
+        toast.error("Coupon Already Used");
+        setCouponData(null);
+        setAppliedCoupon(null);
+      }
 
       if (!couponData) {
         toast.error("Invalid Coupon");
         setCouponData(null);
-      } else {
+        setAppliedCoupon(null);
+      }
+
+      if (couponData && filterCoupon.length == 0) {
         setCouponData(couponData);
+        setAppliedCoupon(couponData);
 
         const newTotal =
           couponData?.discountType === "percentage"
@@ -120,7 +154,7 @@ const CheckoutProduct = ({
           Total:{" "}
           <span className="text-pink-600 flex gap-1 items-center">
             <p className={`${couponData && "line-through"}`}>
-              ₹ {couponData ? Math.round(total) : Math.round(totalPrice)}
+              ₹ {!couponData ? Math.round(total) : Math.round(totalPrice)}
             </p>
             <p className="">
               {couponData?.discountType === "percentage"

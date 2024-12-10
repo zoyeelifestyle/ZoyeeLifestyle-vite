@@ -122,38 +122,30 @@ export const getCheckoutProductIds = async () => {
 };
 
 export const createOrderProducts = async (paymentData: any) => {
-  const orderProductIds = [];
+  const orderProductIds: any[] = [];
 
-  if (paymentData.product && typeof paymentData.product === "object") {
-    const products = Object.values(paymentData.product);
-
-    for (const product of products) {
+  if (Array.isArray(paymentData.product)) {
+    for (const item of paymentData.product) {
       try {
-        // Create an orderProduct entry for each product
-        const productDetails = product as any;
-
         const orderProduct = await createDocument("orderProduct", {
-          productId: productDetails.productId,
-          name: productDetails.productName, // Ensure to use the correct key (e.g., productName)
-          size: productDetails.size,
-          color: productDetails.color,
-          quantity: productDetails.quantity,
-          image: productDetails.img,
+          productId: item.productId,
+          name: item.productName,
+          size: item.size,
+          color: item.color,
+          quantity: item.quantity,
+          image: item.img,
         });
 
-        // Store the product ID to reference later in the order
         orderProductIds.push(orderProduct._id);
       } catch (error) {
-        console.error(
-          "Error creating orderProduct for product",
-          product,
-          error
-        );
+        console.error("Error creating orderProduct for product", item, error);
       }
     }
   } else {
-    console.error("paymentData.product is not an object or is undefined");
+    console.error("No products found in paymentData");
   }
+
+  // console.log("Ids", orderProductIds);
 
   return orderProductIds;
 };
@@ -161,8 +153,8 @@ export const createOrderProducts = async (paymentData: any) => {
 export const createDocument = async (type: any, data: any) => {
   try {
     const response = await client.create({
-      _type: type, // 'orderProduct' or 'order' depending on what type you're creating
-      ...data, // data to be saved in the document
+      _type: type,
+      ...data,
     });
     return response;
   } catch (error: any) {
@@ -170,25 +162,46 @@ export const createDocument = async (type: any, data: any) => {
     throw error;
   }
 };
+export const createOrder = async (
+  paymentData: any,
+  orderProductIds: any[],
+  shippingDetails: any[]
+) => {
+  if (!orderProductIds || orderProductIds.length === 0) {
+    throw new Error("No order products found");
+  }
 
-export const createOrder = async (paymentData: any, orderProductIds: any) => {
+  if (!shippingDetails || shippingDetails.length === 0) {
+    throw new Error("No shipping details provided");
+  }
+
+  // Validate shipping details before using them
+  const validShippingDetails = shippingDetails.map(
+    (item: any, index: number) => {
+      if (!item || !item._id) {
+        throw new Error("Shipping detail is invalid or missing _id");
+      }
+      return {
+        _ref: item._id,
+        _key: `shipping-detail-${index}`,
+      };
+    }
+  );
+
+  // Ensure the order products have a unique _key
+  const orderProducts = orderProductIds.map((id: string, index: number) => ({
+    _ref: id, // Only use _ref, no key field
+    _key: `order-product-${index}`, // Add a unique key (e.g., by index)
+  }));
+
+  // Proceed to create the order
   const order = await createDocument("order", {
     orderId: paymentData.txnid,
     transactionId: paymentData.txnid,
     totalPaidPrice: paymentData.amount,
-    orderProducts: orderProductIds.map((id: any, index: number) => ({
-      _ref: id,
-      _key: `${id}-${index}`,
-    })),
-    email: paymentData.email,
-    phone: paymentData.user.phone,
-    fullName: paymentData.user.fullName,
-    address1: paymentData.user.address1,
-    address2: paymentData.user.address2,
-    city: paymentData.user.city,
-    state: paymentData.user.state,
-    country: paymentData.user.country,
-    zipcode: paymentData.user.zipcode,
+    orderProducts: orderProducts,
+    shippingAddress: validShippingDetails,
+    orderStatus: "ordered",
   });
 
   return order;
@@ -198,8 +211,31 @@ export const processOrder = async (data: any) => {
   try {
     const orderProductIds = await createOrderProducts(data.paymentData);
 
-    const order = await createOrder(data.paymentData, orderProductIds);
+    const shippingDetails = [data.paymentData.shippingAddress];
 
+    const order = await createOrder(
+      data.paymentData,
+      orderProductIds,
+      shippingDetails
+    );
+
+    const userId = data.paymentData.user._id;
+
+    const orderReference = {
+      _type: "reference",
+      _ref: order._id,
+      _key: `order-id-${order._id}`,
+    };
+
+    const userUpdate = await client
+      .patch(userId)
+      .setIfMissing({ orderDetails: [] })
+      .append("orderDetails", [orderReference])
+      .commit();
+
+    console.log("KJHGJKHG", userUpdate);
+
+    // Redirect to payment URL
     const form = document.createElement("form");
     form.method = "POST";
     form.action = data.payUrl;
