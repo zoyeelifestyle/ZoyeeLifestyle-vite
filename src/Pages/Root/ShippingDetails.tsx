@@ -15,7 +15,12 @@ import { client } from "@/utils/sanityClient";
 
 const ShippingDetails = () => {
   const { param } = useParams();
-  const { user, getUserDataFromSanity, handleBuyNow } = authStore();
+  const {
+    user,
+    getUserDataFromSanity,
+    handleBuyNow,
+    isLoading: loading,
+  } = authStore();
   const [userData, setUserData] = useState<any | null>(null);
   const [displayAddress, setDisplayAddress] = useState<any | null>([]);
   const [productData, setProductData] = useState<any[]>([]); // Make sure this is an array
@@ -356,7 +361,7 @@ const ShippingDetails = () => {
                 className="w-full p-3 text-center bg-pink-600 text-white font-semibold rounded-md hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-pink-500 mt-6"
                 whileHover={{ scale: 1.05 }}
               >
-                {isLoading ? (
+                {loading ? (
                   <Loader2 className="w-4 h-4 animate-spin" />
                 ) : (
                   "Proceed to Checkout"

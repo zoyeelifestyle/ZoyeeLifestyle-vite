@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { authStore } from "@/store/authStore";
 import RootLayout from "./RootLayout";

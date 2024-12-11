@@ -50,9 +50,8 @@ const CheckoutProduct = ({
       const couponId = couponData?._id;
 
       const userCoupon = userData?.usedCoupons;
-      const filterCoupon = userCoupon.filter(
-        (coupon: any) => coupon._id === couponId
-      );
+      const filterCoupon =
+        userCoupon?.filter((coupon: any) => coupon._id === couponId) || [];
 
       if (filterCoupon.length) {
         toast.error("Coupon Already Used");

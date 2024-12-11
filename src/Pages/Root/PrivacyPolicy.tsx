@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from "react";
 import RootLayout from "./RootLayout";
 import { authStore } from "@/store/authStore";
