@@ -32,6 +32,7 @@ const RelatedProducts = ({
                       category={item?.category?.title}
                       key={item?.documentId}
                       imageDatas={item?.images}
+                      preBook={item?.is_launched}
                     />
                   </CarouselItem>
                 )

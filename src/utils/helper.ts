@@ -152,8 +152,6 @@ export const createOrderProducts = async (paymentData: any) => {
     console.error("No products found in paymentData");
   }
 
-  // console.log("Ids", orderProductIds);
-
   return orderProductIds;
 };
 
