@@ -3,7 +3,6 @@ import { useEffect, useRef, useState } from "react";
 import { authStore } from "@/store/authStore"; // Assuming authStore contains logout method
 import RootLayout from "./RootLayout";
 import { UserCircle, Edit, LogOut } from "lucide-react"; // Add LogOut icon
-import Order from "@/components/Order";
 import { client } from "@/utils/sanityClient";
 
 const Profile = () => {

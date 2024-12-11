@@ -105,6 +105,7 @@ const CategoryProducts = () => {
                         category={categoryTitle}
                         key={item?._id}
                         imageDatas={item?.images}
+                        preBook={item?.is_launched}
                       />
                     );
                   })}

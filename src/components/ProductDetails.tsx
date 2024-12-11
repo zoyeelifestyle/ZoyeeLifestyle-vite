@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
-import { Facebook, Instagram, ShoppingBag, ShoppingCart } from "lucide-react";
+import { ShoppingBag, ShoppingCart } from "lucide-react";
 import {
   calculateDiscountedPrice,
   toggleLocalStorageCart,
@@ -230,20 +230,7 @@ const ProductDetails = ({
         )}
       </div>
       <div className="">
-        <AdditionalInfo
-          skuValue={skuValue}
-          tags={tags}
-          socialMedia={[
-            {
-              Icon: Facebook,
-              link: "https://google.com",
-            },
-            {
-              Icon: Instagram,
-              link: "https://google.com",
-            },
-          ]}
-        />
+        <AdditionalInfo skuValue={skuValue} tags={tags} />
       </div>
     </div>
   );

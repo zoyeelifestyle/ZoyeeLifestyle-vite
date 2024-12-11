@@ -2,16 +2,14 @@
 import { authStore } from "@/store/authStore";
 // import ProductShare from "./ProductShare";
 import { Separator } from "./ui/separator";
-import { LucideIcon } from "lucide-react";
 import SketetonWrapper from "./SkeletonWrapper";
 
 interface Props {
   skuValue: string;
   tags: Array<any>;
-  socialMedia: Array<{ Icon: LucideIcon; link: string }>;
 }
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const AdditionalInfo = ({ skuValue, tags, socialMedia }: Props) => {
+const AdditionalInfo = ({ skuValue, tags }: Props) => {
   const { isLoading } = authStore();
   return (
     <div>

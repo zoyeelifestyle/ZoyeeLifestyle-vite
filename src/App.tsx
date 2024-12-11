@@ -22,7 +22,7 @@ import SignUp from "./Pages/Auth/SignUp";
 // import Profile from "./Pages/Root/Profile";
 import UserProfile from "./Pages/Root/UserProfile";
 import Contact from "./Pages/Root/Contact";
-import Error from "./Pages/Root/error";
+import Error from "./Pages/Root/Error";
 
 // Protected Route
 const ProtectedRoute = ({ children }: { children: ReactNode }) => {

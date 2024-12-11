@@ -96,6 +96,7 @@ const Shop = () => {
                         category={item?.category?.title}
                         key={item?._id}
                         imageDatas={item?.images}
+                        preBook={item?.is_launched}
                       />
                     );
                   })}
