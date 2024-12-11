@@ -1,10 +1,9 @@
-import FloatingShape from "./FloatingShape";
 import HomeCarousal from "./HomeCarousal";
 
 const Hero = () => {
   return (
     <section className="   relative overflow-hidden">
-      <FloatingShape
+      {/* <FloatingShape
         color="bg-pink-600"
         size="w-64 h-64"
         top="-5%"
@@ -31,7 +30,7 @@ const Hero = () => {
         top="10%"
         left="-10%"
         delay={2}
-      />
+      /> */}
 
       <HomeCarousal />
     </section>

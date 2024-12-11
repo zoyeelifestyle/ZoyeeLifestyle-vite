@@ -17,7 +17,7 @@ const ShippingDetails = () => {
   const { param } = useParams();
   const { user, getUserDataFromSanity, handleBuyNow } = authStore();
   const [userData, setUserData] = useState<any | null>(null);
-  const [displayAddress, setDisplayAddress] = useState<any | null>(null);
+  const [displayAddress, setDisplayAddress] = useState<any | null>([]);
   const [productData, setProductData] = useState<any[]>([]); // Make sure this is an array
   const [total, setTotal] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(false);
@@ -38,7 +38,7 @@ const ShippingDetails = () => {
     street: "",
   });
 
-  const [addresses, setAddresses] = useState<any | null>(null);
+  const [addresses, setAddresses] = useState<any | null>([]);
   const [isChangeAddressModal, setIsChangeAddressModal] =
     useState<boolean>(false);
 
@@ -46,6 +46,11 @@ const ShippingDetails = () => {
     // console.log("User Address", displayAddress);
     // console.log("Total Price", total);
     // console.log("Product", productData);
+    if (!displayAddress) {
+      toast.error("Please Select the Address");
+      return;
+    }
+
     const alignedData = {
       product: productData,
       userInfo: userData,
@@ -171,11 +176,13 @@ const ShippingDetails = () => {
       if (user && user.id) {
         try {
           const data = await getUserDataFromSanity(user.id);
-          setDisplayAddress(
-            data[0]?.addresses[data[0]?.addresses.length - 1] || null
-          );
+          if (data[0]?.addresses) {
+            setDisplayAddress(
+              data[0]?.addresses[data[0]?.addresses.length - 1] || null
+            );
+            setAddresses(data[0]?.addresses);
+          }
           setUserData(data[0]);
-          setAddresses(data[0]?.addresses);
         } catch (error) {
           console.error("Error fetching user data:", error);
           setDisplayAddress(null);
@@ -346,10 +353,14 @@ const ShippingDetails = () => {
               )}
               <motion.button
                 onClick={handleBuy}
-                className="w-full p-3 bg-pink-600 text-white font-semibold rounded-md hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-pink-500 mt-6"
+                className="w-full p-3 text-center bg-pink-600 text-white font-semibold rounded-md hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-pink-500 mt-6"
                 whileHover={{ scale: 1.05 }}
               >
-                Proceed to Checkout
+                {isLoading ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : (
+                  "Proceed to Checkout"
+                )}
               </motion.button>
             </div>
           </motion.div>

@@ -179,20 +179,25 @@ const ProductDetails = ({
         </div>
       </div>
 
-      <div className="flex items-center text-xl gap-3">
-        <p className="font-extrabold tracking-wider">
-          <SketetonWrapper isLoading={isLoading}>
-            ₹{" "}
-            {discounted_price
-              ? `${discounted_price}`
-              : `${Math.round(
-                  calculateDiscountedPrice(price, discount)
-                )}  (${discount}% Off)`}
-          </SketetonWrapper>
-        </p>
-        <p className="font-extrabold text-gray-400 line-through tracking-wider">
-          <SketetonWrapper isLoading={isLoading}>₹ {price}</SketetonWrapper>
-        </p>
+      <div className="">
+        <div className="flex items-center text-xl gap-3">
+          <p className="font-extrabold tracking-wider">
+            <SketetonWrapper isLoading={isLoading}>
+              ₹{" "}
+              {discounted_price
+                ? `${discounted_price}`
+                : `${Math.round(
+                    calculateDiscountedPrice(price, discount)
+                  )}  (${discount}% Off)`}
+            </SketetonWrapper>
+          </p>
+          <p className="font-extrabold text-gray-400 line-through tracking-wider">
+            <SketetonWrapper isLoading={isLoading}>₹ {price}</SketetonWrapper>
+          </p>
+        </div>
+        <div className="text-xs font-medium text-gray-500">
+          <p className="">Shipping and Tax Included</p>
+        </div>
       </div>
 
       <Counter total={10} quantity={quantity} setQuantity={setQuantity} />

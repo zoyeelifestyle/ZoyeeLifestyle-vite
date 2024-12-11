@@ -723,7 +723,8 @@ name, image, size, color, quantity,productId
         firstName: shippingAddress.username,
         email: userInfo.email,
       };
-      console.log("final", finalData);
+
+      // console.log("final", finalData);
 
       const response = await axios.post(
         "https://payu-payment-gateway.onrender.com/api/create-payu-order",

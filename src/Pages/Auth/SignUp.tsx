@@ -4,9 +4,10 @@ import { motion } from "framer-motion";
 import { signUpFormSchema } from "@/schemas/schema";
 import { Link } from "react-router-dom";
 import { authStore } from "@/store/authStore";
+import { Loader2 } from "lucide-react";
 
 const SignUp = () => {
-  const { signup } = authStore();
+  const { signup, isLoading } = authStore();
 
   const formik = useFormik({
     initialValues: {
@@ -137,7 +138,11 @@ const SignUp = () => {
               }}
               className="w-full bg-pink-600 tracking-wider text-white py-2 md:py-2 rounded-md text-sm md:text-base font-medium hover:bg-primary-dark transition"
             >
-              Sign Up
+              {isLoading ? (
+                <Loader2 className="w-6 h-6 animate-spin mx-auto" />
+              ) : (
+                "Sign In"
+              )}
             </motion.button>
           </form>
           <motion.div

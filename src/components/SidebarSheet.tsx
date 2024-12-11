@@ -1,4 +1,4 @@
-import { Menu, ShoppingBagIcon, UserCircle } from "lucide-react";
+import { Menu, PowerIcon, ShoppingBagIcon, UserCircle } from "lucide-react";
 import AuthLogo from "./AuthLogo";
 import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -16,7 +16,7 @@ import { authStore } from "@/store/authStore";
 const SidebarSheet = ({ cartLength }: { cartLength: number }) => {
   const { pathname } = useLocation();
 
-  const { user } = authStore();
+  const { user, signout } = authStore();
 
   return (
     <Sheet>
@@ -123,6 +123,19 @@ const SidebarSheet = ({ cartLength }: { cartLength: number }) => {
                 )}
               </motion.div>
             </Link>
+
+            {user && (
+              <div className="">
+                <div
+                  onClick={async () => {
+                    await signout();
+                  }}
+                  className="bg-red-100 px-2 py-2 text-red-500 rounded-full hover:bg-red-500 cursor-pointer hover:text-white duration-300 ease-in-out transition-all"
+                >
+                  <PowerIcon className="w-5 h-5" />
+                </div>
+              </div>
+            )}
           </motion.div>
         </SheetHeader>
       </SheetContent>
