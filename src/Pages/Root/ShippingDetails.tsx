@@ -53,6 +53,8 @@ const ShippingDetails = () => {
       appliedCoupon,
       total,
     };
+    // console.log("product data", alignedData);
+
     await handleBuyNow(alignedData);
     // console.log(alignedData);
   };

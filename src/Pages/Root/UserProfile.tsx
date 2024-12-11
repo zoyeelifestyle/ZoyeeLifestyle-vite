@@ -10,6 +10,7 @@ import { LogOut, PencilIcon, Plus, User } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import AddAddress from "@/components/AddAddress";
 import AddressForm from "@/components/AddressForm";
+import Order from "./Order";
 
 const UserProfile = () => {
   const { user, getUserDataFromSanity, isLoading, signout } = authStore();
@@ -46,7 +47,7 @@ const UserProfile = () => {
           const data = await getUserDataFromSanity(user.id);
           console.log("data", data);
           setUserData(data);
-          setProfileUrl(data[0].profile);
+          setProfileUrl(data?.[0]?.profile || null); // Use optional chaining here
         } catch (error) {
           console.error("Error fetching user data:", error);
           setUserData(null);
@@ -66,8 +67,6 @@ const UserProfile = () => {
   };
 
   const editAddressToUserData = (newAddress: any, addressId: string) => {
-    console.log("user data", userData);
-
     const newData = { ...userData };
     const newFilterAddress = newData[0].addresses.filter(
       (item: any) => item._id !== addressId
@@ -119,10 +118,12 @@ const UserProfile = () => {
                     </div>
                     <div className="text-center md:text-left">
                       <h3 className="text-xl font-semibold">
-                        {userData[0]?.username}
+                        {userData[0]?.username || "User"}{" "}
+                        {/* Fallback for undefined */}
                       </h3>
                       <p className="text-sm font-semibold text-gray-500">
-                        {userData[0]?.email}
+                        {userData[0]?.email || "No email available"}{" "}
+                        {/* Fallback */}
                       </p>
                     </div>
                   </div>
@@ -149,7 +150,7 @@ const UserProfile = () => {
             <div className="flex justify-between items-center flex-co  md:justify-between">
               <div className="">
                 <SketetonWrapper isLoading={isLoading}>
-                  {userData && (
+                  {userData?.[0]?.addresses?.length > 0 && (
                     <p className="text-sm md:text-lg font-semibold">
                       {userData[0]?.addresses.length > 1
                         ? "Addresses"
@@ -180,9 +181,8 @@ const UserProfile = () => {
                 <button className="text-xs">Add Address</button>
               </div>
             </div>
-            {userData && (
+            {userData && userData[0]?.addresses && (
               <AddAddress
-                // userId={userData[0].userId}
                 setEditAddressId={setEditAddressId}
                 addresses={userData[0].addresses}
                 updateUserDataAfterDeletion={updateUserDataAfterDeletion}
@@ -194,7 +194,7 @@ const UserProfile = () => {
               <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50">
                 <AddressForm
                   setIsPopupOpen={setIsPopupOpen}
-                  userId={userData[0]?._id}
+                  userId={userData?.[0]?._id} // Optional chaining for userId
                   addAddressToUserData={addAddressToUserData}
                   editAddressToUserData={editAddressToUserData}
                   selectedFormData={selectedFormData}
@@ -206,7 +206,9 @@ const UserProfile = () => {
           <div className="my-5">
             <Separator />
           </div>
-          <div className="">Order</div>
+          {userData && userData[0]?.orderDetails && (
+            <Order orderDetails={userData[0].orderDetails} />
+          )}
         </div>
       </div>
       <input type="file" ref={imageTag} className="hidden" />

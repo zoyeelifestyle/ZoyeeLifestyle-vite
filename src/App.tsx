@@ -21,6 +21,8 @@ import SignIn from "./Pages/Auth/SignIn";
 import SignUp from "./Pages/Auth/SignUp";
 // import Profile from "./Pages/Root/Profile";
 import UserProfile from "./Pages/Root/UserProfile";
+import Contact from "./Pages/Root/Contact";
+import Error from "./Pages/Root/error";
 
 // Protected Route
 const ProtectedRoute = ({ children }: { children: ReactNode }) => {
@@ -93,6 +95,8 @@ const App = () => {
           }
         />
 
+        <Route path="/contact" element={<Contact />} />
+
         <Route path="/success" element={<Success />} />
         <Route path="/failure" element={<Failure />} />
 
@@ -114,6 +118,8 @@ const App = () => {
             </ProtectedRoute>
           }
         />
+
+        <Route path="*" element={<Error />} />
       </Routes>
     </div>
   );

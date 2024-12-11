@@ -19,6 +19,7 @@ interface Props {
   discount?: number;
   discount_price?: number;
   imageDatas: Array<any>;
+  preBook: boolean;
 }
 
 const ProductCard = ({
@@ -29,6 +30,7 @@ const ProductCard = ({
   productId,
   imageDatas,
   discount_price,
+  preBook,
 }: Props) => {
   const [isInCart, setIsInCart] = useState<boolean>(false);
   const [displayImage, setDisplayImage] = useState(0);
@@ -88,20 +90,31 @@ const ProductCard = ({
             />
           </div>
         )}
-        <motion.div
-          onClick={cartBtnClicked}
-          className={`p-2 text-sm rounded-full flex justify-center items-center font-semibold absolute bottom-3 right-3 z-20 tracking-wider ${
-            isInCart ? "text-white bg-pink-600" : "text-pink-600 bg-white"
-          } transition-all duration-200`}
-          initial={{ scale: 0.8, opacity: 0 }}
-          whileInView={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.4, type: "spring", stiffness: 300 }}
-        >
-          <CustomTooltip
-            Icon={ShoppingCart}
-            text={`${!isInCart ? "Add To Cart" : "Remove From Cart"}`}
-          />
-        </motion.div>
+        {preBook ? (
+          <motion.div
+            onClick={cartBtnClicked}
+            className={`p-2 text-sm rounded-full flex justify-center items-center font-semibold absolute bottom-3 right-3 z-20 tracking-wider ${
+              isInCart ? "text-white bg-pink-600" : "text-pink-600 bg-white"
+            } transition-all duration-200`}
+            initial={{ scale: 0.8, opacity: 0 }}
+            whileInView={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.4, type: "spring", stiffness: 300 }}
+          >
+            <CustomTooltip
+              Icon={ShoppingCart}
+              text={`${!isInCart ? "Add To Cart" : "Remove From Cart"}`}
+            />
+          </motion.div>
+        ) : (
+          <motion.div
+            className={` text-sm rounded-full flex justify-center border border-pink-600 bg-white items-center font-semibold absolute left-3 bottom-3 z-20 tracking-widers transition-all duration-200`}
+            initial={{ scale: 0.8, opacity: 0 }}
+            whileInView={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.4, type: "spring", stiffness: 300 }}
+          >
+            <p className="text-xs px-2 text-indigo-700 ">pre-book</p>
+          </motion.div>
+        )}
       </div>
       <Link to={`/shop/${productId}`}>
         <div className="space-y-1 px-3 py-3">

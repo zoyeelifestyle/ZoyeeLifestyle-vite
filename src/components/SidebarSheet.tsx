@@ -66,8 +66,8 @@ const SidebarSheet = ({ cartLength }: { cartLength: number }) => {
             {user ? (
               <Link to={"/profile"}>
                 <UserCircle
-                  className={`w-7 h-7 cursor-pointer ${
-                    location.pathname === "/profile" && "text-primary"
+                  className={`w-8 h-8 cursor-pointer ${
+                    location.pathname === "/profile" && "text-pink-600"
                   }`}
                 />
               </Link>

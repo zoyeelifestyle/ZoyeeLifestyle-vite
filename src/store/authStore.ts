@@ -635,6 +635,26 @@ export const authStore = create<AuthStore>((set) => ({
   
 couponDescription,
 isActive
+  },
+  orderDetails[]-> {
+  
+  _id,
+  orderId,
+  totalPaidPrice,
+  orderProducts[]->{
+  _id,
+name, image, size, color, quantity,productId
+  },
+  shippingAddress[]->{
+  _id,
+  username, 
+  phone, 
+  address1, 
+  address2, street,
+  city, state, zipCode, country
+  },
+  orderStatus
+  
   }
 }
 
@@ -694,6 +714,7 @@ isActive
       );
       if (response.data.paymentData && response.data.payUrl) {
         // console.log("sdsdsfsf", response.data);
+        console.log("reponse data", response.data.paymentData);
 
         await processOrder(response.data);
       } else {

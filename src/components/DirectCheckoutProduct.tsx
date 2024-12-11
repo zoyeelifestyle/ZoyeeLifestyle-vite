@@ -47,13 +47,14 @@ const DirectCheckoutProduct = ({
     if (couponCode.length === 0) {
       toast.error("Please Enter Coupon");
     } else {
+      console.log("coupon");
+
       const couponData = await applyCoupon(couponCode);
       const couponId = couponData?._id;
 
       const userCoupon = userData?.usedCoupons;
-      const filterCoupon = userCoupon.filter(
-        (coupon: any) => coupon._id === couponId
-      );
+      const filterCoupon =
+        userCoupon?.filter((coupon: any) => coupon._id === couponId) || [];
 
       if (filterCoupon.length) {
         toast.error("Coupon Already Used");

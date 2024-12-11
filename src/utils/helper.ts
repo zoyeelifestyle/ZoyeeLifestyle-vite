@@ -134,6 +134,13 @@ export const createOrderProducts = async (paymentData: any) => {
           color: item.color,
           quantity: item.quantity,
           image: item.img,
+          actualProduct: [
+            {
+              _type: "reference",
+              _ref: item.productId,
+              _key: `actual-product-${item?.productId}`,
+            },
+          ],
         });
 
         orderProductIds.push(orderProduct._id);
@@ -227,13 +234,15 @@ export const processOrder = async (data: any) => {
       _key: `order-id-${order._id}`,
     };
 
-    const userUpdate = await client
+    await client
       .patch(userId)
       .setIfMissing({ orderDetails: [] })
       .append("orderDetails", [orderReference])
       .commit();
 
-    console.log("KJHGJKHG", userUpdate);
+    if (data.paymentData.product[0].where === "cart") {
+      localStorage.removeItem("cart");
+    }
 
     // Redirect to payment URL
     const form = document.createElement("form");
