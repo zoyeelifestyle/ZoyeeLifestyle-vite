@@ -23,6 +23,7 @@ import SignUp from "./Pages/Auth/SignUp";
 import UserProfile from "./Pages/Root/UserProfile";
 import Contact from "./Pages/Root/Contact";
 import Error from "./Pages/Root/Error";
+import ShippingPolicy from "./Pages/Root/ShippingPolicy";
 
 // Protected Route
 const ProtectedRoute = ({ children }: { children: ReactNode }) => {
@@ -109,6 +110,7 @@ const App = () => {
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms" element={<Terms />} />
         <Route path="/return-&-refund" element={<ReturnRefund />} />
+        <Route path="/shipping-policy" element={<ShippingPolicy />} />
 
         <Route
           path="/shipping-details/:param"

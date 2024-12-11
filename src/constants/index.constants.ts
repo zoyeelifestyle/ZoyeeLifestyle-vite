@@ -95,4 +95,8 @@ export const FOOTERHELP = [
     label: "Privacy Policy",
     link: "/privacy-policy",
   },
+  {
+    label: "Shipping Policy",
+    link: "/shipping-policy",
+  },
 ];

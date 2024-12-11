@@ -59,6 +59,8 @@ interface AuthStore {
   fetchOrderDetails: (orderId: string) => Promise<any>;
 
   getBasicInfo: () => Promise<any>;
+
+  getShippingPolicy: () => Promise<any>;
 }
 
 export const authStore = create<AuthStore>((set) => ({
@@ -496,6 +498,35 @@ export const authStore = create<AuthStore>((set) => ({
         error: error.message || "Error fetching privacy data",
       });
 
+      throw error;
+    }
+  },
+
+  getShippingPolicy: async () => {
+    set({ isLoading: true, error: null });
+    try {
+      const query = `
+*[_type == "shippingPolicy"] {
+  title,
+  content[]{
+    ...,
+    _type == "image" => {
+      ...,
+      "alt": alt
+    }
+  }
+}
+      `;
+
+      const response = await client.fetch(query);
+      const html = await blockToHtml(response);
+      set({ isLoading: false });
+      return html;
+    } catch (error: any) {
+      set({
+        isLoading: false,
+        error: error.message || "Error fetching Shipping Policy",
+      });
       throw error;
     }
   },

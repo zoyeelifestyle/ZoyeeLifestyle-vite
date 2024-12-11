@@ -14,11 +14,10 @@ const PrivacyPolicy = () => {
     <RootLayout>
       {privacyData ? (
         <div className="px-5">
-          {/* <div
+          <div
             className="shadow-2xl rounded-full"
             dangerouslySetInnerHTML={{ __html: privacyData }}
-          /> */}
-          lee
+          />
         </div>
       ) : (
         <p>Loading terms...</p>
