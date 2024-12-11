@@ -4,9 +4,9 @@ import { useEffect, useRef, useState } from "react";
 import RootLayout from "./RootLayout";
 import { authStore } from "@/store/authStore";
 
-import Image from "../../assets/category/img1.jpg";
+// import Image from "../../assets/category/img1.jpg";
 import SketetonWrapper from "@/components/SkeletonWrapper";
-import { LogOut, PencilIcon, Plus, User } from "lucide-react";
+import { LogOut, Plus } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import AddAddress from "@/components/AddAddress";
 import AddressForm from "@/components/AddressForm";
@@ -18,13 +18,13 @@ const UserProfile = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const imageTag = useRef<HTMLInputElement | null>(null);
 
-  const [profileUrl, setProfileUrl] = useState<string | null>("");
+  // const [profileUrl, setProfileUrl] = useState<string | null>("");
 
-  const openLocal = () => {
-    if (imageTag.current) {
-      imageTag.current.click(); // Trigger the click event
-    }
-  };
+  // const openLocal = () => {
+  //   if (imageTag.current) {
+  //     imageTag.current.click(); // Trigger the click event
+  //   }
+  // };
 
   const [selectedFormData, setSelectedFormData] = useState({
     username: "",
@@ -47,7 +47,7 @@ const UserProfile = () => {
           const data = await getUserDataFromSanity(user.id);
           console.log("data", data);
           setUserData(data);
-          setProfileUrl(data?.[0]?.profile || null); // Use optional chaining here
+          // setProfileUrl(data?.[0]?.profile || null); // Use optional chaining here
         } catch (error) {
           console.error("Error fetching user data:", error);
           setUserData(null);
@@ -99,7 +99,7 @@ const UserProfile = () => {
               {userData ? (
                 <div className="flex flex-col md:flex-row justify-between items-center md:items-start gap-4">
                   <div className="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto">
-                    <div className="relative">
+                    {/* <div className="relative">
                       {profileUrl ? (
                         <img
                           src={Image}
@@ -115,7 +115,7 @@ const UserProfile = () => {
                       >
                         <PencilIcon className="w-3 h-3" />
                       </div>
-                    </div>
+                    </div> */}
                     <div className="text-center md:text-left">
                       <h3 className="text-xl font-semibold">
                         {userData[0]?.username || "User"}{" "}
