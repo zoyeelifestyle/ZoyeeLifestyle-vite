@@ -57,6 +57,8 @@ interface AuthStore {
   applyCoupon: (couponCode: string) => Promise<any>;
 
   fetchOrderDetails: (orderId: string) => Promise<any>;
+
+  getBasicInfo: () => Promise<any>;
 }
 
 export const authStore = create<AuthStore>((set) => ({
@@ -520,6 +522,30 @@ export const authStore = create<AuthStore>((set) => ({
     }
   },
 
+  getBasicInfo: async () => {
+    set({ isLoading: false, error: null });
+    try {
+      const query = `
+      *[_type == "basicInfo"]{
+  address,
+  email,
+  phone
+}
+      `;
+
+      const response = await client.fetch(query);
+
+      set({ isLoading: false });
+      return response;
+    } catch (error: any) {
+      set({
+        isLoading: false,
+        error: error.message || "Error fethching basic details",
+      });
+      throw error;
+    }
+  },
+
   getUserOtherData: async (userId) => {
     set({ isLoading: true, error: null });
     try {
@@ -700,7 +726,7 @@ name, image, size, color, quantity,productId
       console.log("final", finalData);
 
       const response = await axios.post(
-        "http://localhost:5000/api/create-payu-order",
+        "https://payu-payment-gateway.onrender.com/api/create-payu-order",
         {
           price: finalData?.totalPrice,
           productName: finalData?.productName,

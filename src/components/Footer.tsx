@@ -1,9 +1,30 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FOOTERHELP, FOOTERLINKS } from "@/constants/index.constants";
 import AuthLogo from "./AuthLogo";
 import { Link } from "react-router-dom";
 import { BackgroundBeamsWithCollision } from "./ui/background-beams-with-collision";
+import { authStore } from "@/store/authStore";
+import { useEffect, useState } from "react";
+import SketetonWrapper from "./SkeletonWrapper";
 
 const Footer = () => {
+  const { getBasicInfo, isLoading } = authStore();
+
+  const [basicDetails, setBasicDetails] = useState<any | null>(null);
+
+  useEffect(() => {
+    const fetch = async () => {
+      const data = await getBasicInfo();
+
+      setBasicDetails(data);
+    };
+    fetch();
+  }, []);
+
+  useEffect(() => {
+    console.log("basic details", basicDetails);
+  }, [basicDetails]);
+
   return (
     <BackgroundBeamsWithCollision>
       <section className="w-full flex flex-col lg:flex-row gap-4 lg:gap-0  px-7 lg:px-0 items-start py-8 lg:py-20 justify-evenly bg-gray-50">
@@ -31,9 +52,11 @@ const Footer = () => {
             <AuthLogo width={250} height={60} />
           </div>
           <address className="">
-            <p className="font-medium text-sm md:text-lg">
-              Abc City, Chennai - 600069
-            </p>
+            <SketetonWrapper isLoading={isLoading}>
+              <p className="font-medium text-sm md:text-lg">
+                {basicDetails && `${basicDetails[0].address}`}
+              </p>
+            </SketetonWrapper>
           </address>
         </div>
 
@@ -56,23 +79,6 @@ const Footer = () => {
               </Link>
             ))}
           </div>
-        </div>
-        <div className="lg:flex flex-col hidden gap-4 md:w-1/4">
-          <h3 className="font-semibold text-lg  text-pink-600">Newsletter</h3>
-          <div className="flex items-center gap-2 bg-white p-2 rounded-lg shadow-md">
-            <input
-              type="text"
-              placeholder="Your Email"
-              className="text-sm outline-none border border-gray-300 px-4 py-2 rounded-l-lg w-full"
-            />
-            <button className="px-4 font-medium text-sm py-2 bg-gray-100 text-pink-600 rounded-r-lg transition-all duration-200 ease-in-out hover:bg-pink-600 hover:text-white">
-              Subscribe
-            </button>
-          </div>
-          {/* <div className="">
-            <h3 className="font-semibold text-lg  text-pink-600">Payments</h3>
-
-          </div> */}
         </div>
       </section>
     </BackgroundBeamsWithCollision>

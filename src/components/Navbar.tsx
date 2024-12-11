@@ -50,7 +50,7 @@ const Navbar = () => {
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="w-full sticky top-0 left-0  z-50 flex justify-between items-center px-6 py-4 lg:px-12 lg:py-4 bg-white shadow-md"
+      className="w-full sticky z-[9999] top-0 left-0   flex justify-between items-center px-6 py-4 lg:px-12 lg:py-4 bg-white shadow-md"
     >
       {/* Logo Section */}
       <Link to="/">
@@ -120,7 +120,7 @@ const Navbar = () => {
         </div>
 
         {/* Mobile Menu Icon (Optional) */}
-        <div className="lg:hidden cursor-pointer flex items-center">
+        <div className="lg:hidden cursor-pointer  flex items-center">
           <SidebarSheet cartLength={cartLength} />
         </div>
       </motion.div>

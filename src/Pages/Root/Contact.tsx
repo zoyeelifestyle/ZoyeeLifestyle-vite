@@ -1,11 +1,23 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Loader, Mail, MapPin, Phone } from "lucide-react";
 import RootLayout from "./RootLayout";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { client } from "@/utils/sanityClient";
 import toast from "react-hot-toast";
+import { authStore } from "@/store/authStore";
 
 const Contact = () => {
+  const { getBasicInfo } = authStore();
+  const [basicInfo, setBasicInfo] = useState<any | null>(null);
+
+  useEffect(() => {
+    const fetch = async () => {
+      const data = await getBasicInfo();
+      setBasicInfo(data);
+    };
+    fetch();
+  }, []);
+
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -72,7 +84,9 @@ const Contact = () => {
                   <p className="text-gray-600">
                     Our team is ready to assist you.
                   </p>
-                  <p className="text-pink-600">hello@merakiui.com</p>
+                  <p className="text-pink-600">
+                    {basicInfo ? `${basicInfo[0]?.email}` : "No Email Found"}
+                  </p>
                 </div>
               </div>
 
@@ -86,7 +100,7 @@ const Contact = () => {
                   </h3>
                   <p className="text-gray-600">Visit us at our HQ.</p>
                   <p className="text-pink-600">
-                    100 Smith Street Collingwood VIC 3066 AU
+                    {basicInfo ? `${basicInfo[0]?.address}` : "No Email Found"}
                   </p>
                 </div>
               </div>
@@ -98,7 +112,10 @@ const Contact = () => {
                 <div>
                   <h3 className="text-lg font-semibold text-gray-800">Phone</h3>
                   <p className="text-gray-600">Mon-Fri from 8am to 5pm.</p>
-                  <p className="text-pink-600">+1 (555) 000-0000</p>
+                  <p className="text-pink-600">
+                    +91{" "}
+                    {basicInfo ? `${basicInfo[0]?.phone}` : "No Email Found"}
+                  </p>
                 </div>
               </div>
             </div>

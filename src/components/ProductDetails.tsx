@@ -77,11 +77,6 @@ const ProductDetails = ({
   // const navigate = useNavigate();
 
   const buyNow = async () => {
-    // if (!user) {
-    //   navigate("/sign-in");
-    //   return;
-    // }
-
     if (!selectedSize) {
       toast("Select Preferred Size", {
         icon: "👗",
@@ -189,8 +184,10 @@ const ProductDetails = ({
           <SketetonWrapper isLoading={isLoading}>
             ₹{" "}
             {discounted_price
-              ? discounted_price
-              : Math.round(calculateDiscountedPrice(price, discount))}
+              ? `${discounted_price}`
+              : `${Math.round(
+                  calculateDiscountedPrice(price, discount)
+                )}  (${discount}% Off)`}
           </SketetonWrapper>
         </p>
         <p className="font-extrabold text-gray-400 line-through tracking-wider">
