@@ -10,13 +10,11 @@ import { calculateDiscountedPrice } from "@/utils/helper";
 const CheckoutProduct = ({
   productData,
   total,
-  setTotal,
   setAppliedCoupon,
 }: {
   productData: any;
   total: number;
   setAppliedCoupon: (value: any) => void;
-  setTotal: (value: number) => void;
 }) => {
   const [allProductDatas, setAllProductDatas] = useState<any>([]);
 

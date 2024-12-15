@@ -289,38 +289,39 @@ export const authStore = create<AuthStore>((set) => ({
       // const response = await axios.get(`${BASE_URL}/products?populate=*`);
       // set({ isLoading: false, allProducts: response.data.data });
 
-      const getAllProductsQuery = `*[_type == "product"]{
+      const getAllProductsQuery = `*[_type == "product" && publish == true]{
+  _id,
+  title,
+  description,
+  is_launched,
+  launch_date,
+  SKU,
+  images[] {
+    asset->{
+      _id,
+      url
+    }
+  },
+  actual_price,
+  discount,
+  discount_price,
+  tags,
+  colors[] {
+    hex
+  },
+  sizes,
+  category->{
+    _id,
+    title,
+    image{
+      asset->{
         _id,
-        title,
-        description,
-        is_launched,
-        launch_date,
-        SKU,
-        images[]{
-          asset->{
-            _id,
-            url
-          }
-        },
-        actual_price,
-        discount,
-        discount_price,
-        tags,
-        colors[]{
-          hex
-        },
-        sizes,
-        category->{
-          _id,
-          title,
-          image{
-            asset->{
-              _id,
-              url
-            }
-          }
-        }
-      }`;
+        url
+      }
+    }
+  },
+  isSoldOut
+}`;
 
       const response = await client.fetch(getAllProductsQuery);
       // console.log("aLL pRODUCTS:", response);
@@ -359,6 +360,7 @@ export const authStore = create<AuthStore>((set) => ({
           hex
         },
         sizes,
+        isSoldOut,
         category->{
           _id,
           title,
@@ -743,9 +745,30 @@ name, image, size, color, quantity,productId
   address2, street,
   city, state, zipCode, country
   },
-  orderStatus
+  orderStatus,
+  createdAt
+  },
   
-  }
+  preOrders[]-> {
+  
+  _id,
+  orderId,
+  totalPaidPrice,
+  orderProducts[]->{
+  _id,
+name, image, size, color, quantity,productId
+  },
+  shippingAddress[]->{
+  _id,
+  username, 
+  phone, 
+  address1, 
+  address2, street,
+  city, state, zipCode, country
+  },
+  orderStatus,
+  createdAt
+  },
 }
 
       `;
@@ -788,7 +811,7 @@ name, image, size, color, quantity,productId
         email: userInfo.email,
       };
 
-      // console.log("final", finalData);
+      // console.log("final", product, finalData);
 
       const response = await axios.post(
         "http://localhost:5000/api/create-payu-order",
@@ -800,7 +823,7 @@ name, image, size, color, quantity,productId
           product: product,
           user: userInfo,
           shippingAddress,
-          appliedCoupon,
+          appliedCoupon: [appliedCoupon],
         }
       );
       if (response.data.paymentData && response.data.payUrl) {

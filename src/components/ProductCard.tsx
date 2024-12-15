@@ -20,6 +20,7 @@ interface Props {
   discount_price?: number;
   imageDatas: Array<any>;
   preBook: boolean;
+  isSoldOut: boolean;
 }
 
 const ProductCard = ({
@@ -31,6 +32,7 @@ const ProductCard = ({
   imageDatas,
   discount_price,
   preBook,
+  isSoldOut,
 }: Props) => {
   const [isInCart, setIsInCart] = useState<boolean>(false);
   const [displayImage, setDisplayImage] = useState(0);
@@ -90,31 +92,38 @@ const ProductCard = ({
             />
           </div>
         )}
-        {preBook ? (
-          <motion.div
-            onClick={cartBtnClicked}
-            className={`p-2 text-sm rounded-full flex justify-center items-center font-semibold absolute bottom-3 right-3 z-20 tracking-wider ${
-              isInCart ? "text-white bg-pink-600" : "text-pink-600 bg-white"
-            } transition-all duration-200`}
-            initial={{ scale: 0.8, opacity: 0 }}
-            whileInView={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.4, type: "spring", stiffness: 300 }}
-          >
-            <CustomTooltip
-              Icon={ShoppingCart}
-              text={`${!isInCart ? "Add To Cart" : "Remove From Cart"}`}
-            />
-          </motion.div>
-        ) : (
-          <motion.div
-            className={` text-sm rounded-full flex justify-center border border-pink-600 bg-white items-center font-semibold absolute left-3 bottom-3 z-20 tracking-widers transition-all duration-200`}
-            initial={{ scale: 0.8, opacity: 0 }}
-            whileInView={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.4, type: "spring", stiffness: 300 }}
-          >
-            <p className="text-xs px-2 text-indigo-700 ">pre-book</p>
-          </motion.div>
+        {isSoldOut && (
+          <div className="absolute top-1/2  -translate-y-1/2 md:py-5 py-2 md:text-xl  w-full bg-pink-600 text-white font-semibold">
+            <p className="text-center">Sold Out</p>
+          </div>
         )}
+        {preBook
+          ? !isSoldOut && (
+              <motion.div
+                onClick={cartBtnClicked}
+                className={`p-2 text-sm rounded-full flex justify-center items-center font-semibold absolute bottom-3 right-3 z-20 tracking-wider ${
+                  isInCart ? "text-white bg-pink-600" : "text-pink-600 bg-white"
+                } transition-all duration-200`}
+                initial={{ scale: 0.8, opacity: 0 }}
+                whileInView={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.4, type: "spring", stiffness: 300 }}
+              >
+                <CustomTooltip
+                  Icon={ShoppingCart}
+                  text={`${!isInCart ? "Add To Cart" : "Remove From Cart"}`}
+                />
+              </motion.div>
+            )
+          : !isSoldOut && (
+              <motion.div
+                className={` text-sm rounded-full flex justify-center border border-pink-600 bg-white items-center font-semibold absolute left-3 bottom-3 z-20 tracking-widers transition-all duration-200`}
+                initial={{ scale: 0.8, opacity: 0 }}
+                whileInView={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.4, type: "spring", stiffness: 300 }}
+              >
+                <p className="text-xs px-2 text-indigo-700 ">pre-book</p>
+              </motion.div>
+            )}
       </div>
       <Link to={`/shop/${productId}`}>
         <div className="space-y-1 px-3 py-3">
@@ -132,7 +141,7 @@ const ProductCard = ({
           </p>
           <div className="flex justify-between">
             {/* Price Animation */}
-            {discount ? (
+            {discount && (
               <motion.p
                 className="font-extrabold text-sm md:text-xl"
                 initial={{ opacity: 0, y: 10 }}
@@ -141,7 +150,8 @@ const ProductCard = ({
               >
                 ₹ {Math.round(calculateDiscountedPrice(price, discount))}
               </motion.p>
-            ) : (
+            )}
+            {discount_price && (
               <motion.p
                 className="font-extrabold text-sm md:text-xl"
                 initial={{ opacity: 0, y: 10 }}
@@ -151,9 +161,14 @@ const ProductCard = ({
                 ₹ {discount_price}
               </motion.p>
             )}
-            <p className="text-gray-400 text-sm font-extrabold line-through md:text-xl">
-              ₹ {price}
-            </p>
+            {(discount || discount_price) && (
+              <p className="text-gray-400 text-sm font-extrabold line-through md:text-xl">
+                ₹ {price}
+              </p>
+            )}
+            {!discount && !discount_price && (
+              <p className="text-sm font-extrabold md:text-xl">₹ {price}</p>
+            )}
           </div>
         </div>
       </Link>

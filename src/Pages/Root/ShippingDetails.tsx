@@ -63,6 +63,7 @@ const ShippingDetails = () => {
       appliedCoupon,
       total,
     };
+
     // console.log("product data", alignedData);
 
     await handleBuyNow(alignedData);
@@ -112,7 +113,7 @@ const ShippingDetails = () => {
       });
 
       const addressReference = {
-        _key: `address-${address._id}`, // Use a unique value, like the address ID
+        _key: `address-${address._id}`,
         _type: "reference",
         _ref: address._id,
       };
@@ -166,6 +167,10 @@ const ShippingDetails = () => {
       }
     }
   }, [param]);
+
+  useEffect(() => {
+    console.log("Product  Data", productData);
+  }, [productData]);
 
   // Total calculation whenever `productData` changes
   useEffect(() => {
@@ -352,7 +357,6 @@ const ShippingDetails = () => {
                   <CheckoutProduct
                     productData={productData}
                     total={total}
-                    setTotal={setTotal}
                     setAppliedCoupon={setAppliedCoupon}
                   />
                 )

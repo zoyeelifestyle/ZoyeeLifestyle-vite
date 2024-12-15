@@ -4,7 +4,7 @@ import { removeExtra } from "@/utils/helper";
 
 const OrderCard = ({ details }: { details: any }) => {
   return (
-    <div className="bg-gradient-to-r h-fit shadow-xl rounded-lg overflow-hidden p-6 mb-6 hover:scale-105 transform transition-all duration-300 ease-in-out">
+    <div className="bg-gradient-to-r border border-pink-600 h-fit shadow-xl rounded-lg overflow-hidden p-6 mb-6 hover:scale-105 transform transition-all duration-300 ease-in-out">
       <div className="flex justify-between items-start space-x-6">
         {/* Left Column */}
         <div className="flex-1 space-y-6">

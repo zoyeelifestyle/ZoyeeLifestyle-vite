@@ -64,6 +64,7 @@ const SingleProduct = () => {
                   isLaunched={singleProduct?.is_launched}
                   discounted_price={singleProduct?.discount_price}
                   image={singleProduct?.images[0].asset.url}
+                  isSoldOut={singleProduct?.isSoldOut}
                 />
               </div>
             </div>

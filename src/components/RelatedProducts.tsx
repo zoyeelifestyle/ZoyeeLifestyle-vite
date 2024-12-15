@@ -33,6 +33,7 @@ const RelatedProducts = ({
                       key={item?.documentId}
                       imageDatas={item?.images}
                       preBook={item?.is_launched}
+                      isSoldOut={item?.isSoldOut}
                     />
                   </CarouselItem>
                 )

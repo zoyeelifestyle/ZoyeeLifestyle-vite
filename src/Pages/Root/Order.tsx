@@ -2,17 +2,24 @@ import OrderCard from "@/components/OrderCard";
 import { Link } from "react-router-dom";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-const Order = ({ orderDetails }: { orderDetails: any }) => {
-  console.log("Order", orderDetails);
-
+const Order = ({
+  orderDetails,
+  title,
+}: {
+  orderDetails: any;
+  title: string;
+}) => {
   return (
     <>
       {orderDetails?.length > 0 ? (
         <div>
-          <h3 className="font-semibold text-sm md:text-lg">Order Details</h3>
+          <h3 className="font-semibold text-sm md:text-lg capitalize ">
+            {title}
+          </h3>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 my-10">
-            {orderDetails?.map((order: any, index: number) => {
+            {/* Reverse the orderDetails array before mapping */}
+            {orderDetails?.reverse().map((order: any, index: number) => {
               return <OrderCard key={index} details={order} />;
             })}
           </div>

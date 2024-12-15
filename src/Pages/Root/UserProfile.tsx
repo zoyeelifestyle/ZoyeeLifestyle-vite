@@ -17,14 +17,6 @@ const UserProfile = () => {
   const [userData, setUserData] = useState<any | null>(null);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
-  // const [profileUrl, setProfileUrl] = useState<string | null>("");
-
-  // const openLocal = () => {
-  //   if (imageTag.current) {
-  //     imageTag.current.click(); // Trigger the click event
-  //   }
-  // };
-
   const [selectedFormData, setSelectedFormData] = useState({
     username: "",
     address1: "",
@@ -44,7 +36,7 @@ const UserProfile = () => {
       if (user && user.id) {
         try {
           const data = await getUserDataFromSanity(user.id);
-          // console.log("data", data);
+          console.log("data", data);
           setUserData(data);
           // setProfileUrl(data?.[0]?.profile || null); // Use optional chaining here
         } catch (error) {
@@ -205,8 +197,20 @@ const UserProfile = () => {
           <div className="my-5">
             <Separator />
           </div>
+          {userData && userData[0]?.preOrders && (
+            <Order
+              title="Pre Order Details"
+              orderDetails={userData[0].preOrders}
+            />
+          )}
+          <div className="my-5">
+            <Separator />
+          </div>
           {userData && userData[0]?.orderDetails && (
-            <Order orderDetails={userData[0].orderDetails} />
+            <Order
+              title="Order Details"
+              orderDetails={userData[0].orderDetails}
+            />
           )}
         </div>
       </div>

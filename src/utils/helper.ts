@@ -222,10 +222,12 @@ export const createDocument = async (type: any, data: any) => {
     throw error;
   }
 };
+
 export const createOrder = async (
   paymentData: any,
   orderProductIds: any[],
-  shippingDetails: any[]
+  shippingDetails: any[],
+  isPreorder: boolean
 ) => {
   if (!orderProductIds || orderProductIds.length === 0) {
     throw new Error("No order products found");
@@ -254,49 +256,75 @@ export const createOrder = async (
     _key: `order-product-${index}`, // Add a unique key (e.g., by index)
   }));
 
-  // Proceed to create the order
-  const order = await createDocument("order", {
-    orderId: paymentData.txnid,
-    transactionId: paymentData.txnid,
-    totalPaidPrice: paymentData.amount,
-    orderProducts: orderProducts,
-    shippingAddress: validShippingDetails,
-    paymentStatus: "pending",
-  });
-
-  return order;
+  if (isPreorder) {
+    // Proceed to create the order
+    const order = await createDocument("preOrder", {
+      orderId: paymentData.txnid,
+      transactionId: paymentData.txnid,
+      totalPaidPrice: paymentData.amount,
+      orderProducts: orderProducts,
+      shippingAddress: validShippingDetails,
+      orderStatus: "ordered",
+      paymentStatus: "pending",
+      createdAt: new Date(Date.now()).toISOString(),
+    });
+    return order;
+  } else {
+    // Proceed to create the order
+    const order = await createDocument("order", {
+      orderId: paymentData.txnid,
+      transactionId: paymentData.txnid,
+      totalPaidPrice: paymentData.amount,
+      orderProducts: orderProducts,
+      shippingAddress: validShippingDetails,
+      orderStatus: "ordered",
+      paymentStatus: "pending",
+      createdAt: new Date(Date.now()).toISOString(),
+    });
+    return order;
+  }
 };
 
 export const processOrder = async (data: any) => {
   try {
+    const isPreorder = data.paymentData.product[0].preorder;
     const orderProductIds = await createOrderProducts(data.paymentData);
-
     const shippingDetails = [data.paymentData.shippingAddress];
-
     const order = await createOrder(
       data.paymentData,
       orderProductIds,
-      shippingDetails
+      shippingDetails,
+      isPreorder
     );
-
     const userId = data.paymentData.user._id;
-
     const orderReference = {
       _type: "reference",
       _ref: order._id,
-      _key: `order-id-${order._id}`,
+      _key: `${isPreorder ? "pre-order-id" : "order-id"}-${order._id}`,
     };
-
     await client
       .patch(userId)
       .setIfMissing({ orderDetails: [] })
-      .append("orderDetails", [orderReference])
+      .append(`${isPreorder ? "preOrders" : "orderDetails"}`, [orderReference])
       .commit();
+
+    if (data.paymentData.appliedCoupon.length > 0) {
+      await client
+        .patch(userId)
+        .setIfMissing({ usedCoupons: [] })
+        .append("usedCoupons", [
+          {
+            _type: "reference",
+            _ref: data.paymentData.appliedCoupon[0]._id,
+            _key: `coupon-id-${data.paymentData.appliedCoupon[0]._id}`,
+          },
+        ])
+        .commit();
+    }
 
     if (data.paymentData.product[0].where === "cart") {
       localStorage.removeItem("cart");
     }
-
     // Redirect to payment URL
     const form = document.createElement("form");
     form.method = "POST";
@@ -309,10 +337,9 @@ export const processOrder = async (data: any) => {
       form.appendChild(input);
     });
     document.body.appendChild(form);
-    // form.submit();
+    form.submit();
     console.log("foem", form);
-
-    // console.log("Order created successfully:", order);
+    console.log("Order created successfully:", order);
   } catch (error: any) {
     console.error("Error creating order", error);
   }

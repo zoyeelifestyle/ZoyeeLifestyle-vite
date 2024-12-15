@@ -21,7 +21,7 @@ const AllProducts = () => {
   }, [fetchAllProducts]);
 
   useEffect(() => {
-    // console.log("Product", allProducts);
+    console.log("All PRO", allProducts);
   }, [allProducts]);
 
   // Animation variants for the section and the product cards
@@ -70,6 +70,7 @@ const AllProducts = () => {
                         category={item?.category?.title}
                         imageDatas={item?.images}
                         preBook={item?.is_launched}
+                        isSoldOut={item?.isSoldOut}
                       />
                     </motion.div>
                   </SketetonWrapper>

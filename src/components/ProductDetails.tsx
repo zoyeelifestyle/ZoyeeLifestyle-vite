@@ -30,6 +30,7 @@ interface Props {
   skuValue: string;
   isLaunched: boolean;
   image: string;
+  isSoldOut: boolean;
 }
 
 const ProductDetails = ({
@@ -46,6 +47,7 @@ const ProductDetails = ({
   skuValue,
   isLaunched,
   image,
+  isSoldOut,
 }: Props) => {
   const navigate = useNavigate();
 
@@ -96,6 +98,7 @@ const ProductDetails = ({
     if (selectedColor && selectedSize && quantity) {
       const product = {
         where: "direct",
+        preorder: !isLaunched,
         productName: title,
         price: discounted_price
           ? discounted_price
@@ -112,9 +115,6 @@ const ProductDetails = ({
         JSON.stringify(product),
         "secret-key"
       ).toString();
-
-      // console.log("ProductInfo", productDetails);
-      // await handleBuyNow(productDetails);
 
       const encodedEncryptedData = encodeURIComponent(encryptedData);
 
@@ -183,15 +183,19 @@ const ProductDetails = ({
         <div className="flex items-center text-xl gap-3">
           <p className="font-extrabold tracking-wider">
             <SketetonWrapper isLoading={isLoading}>
-              ₹{" "}
               {discounted_price
-                ? `${discounted_price}`
-                : `${Math.round(
+                ? `₹ ${discounted_price}`
+                : discount &&
+                  `₹ ${Math.round(
                     calculateDiscountedPrice(price, discount)
                   )}  (${discount}% Off)`}
             </SketetonWrapper>
           </p>
-          <p className="font-extrabold text-gray-400 line-through tracking-wider">
+          <p
+            className={`font-extrabold ${
+              !discount && !discounted_price ? "" : "text-gray-400 line-through"
+            }  tracking-wider`}
+          >
             <SketetonWrapper isLoading={isLoading}>₹ {price}</SketetonWrapper>
           </p>
         </div>
@@ -203,7 +207,14 @@ const ProductDetails = ({
       <Counter total={10} quantity={quantity} setQuantity={setQuantity} />
 
       <div className="flex flex-col gap-3 sm:flex-row sm:gap-5">
-        {!isLaunched ? (
+        {isSoldOut ? (
+          <button
+            disabled={true}
+            className="flex px-10 justify-center items-center py-3 gap-5 hover:shadow-2xl capitalize text-white font-semibold bg-gray-600 transition-all duration-200 ease-in-out rounded-md cursor-not-allowed opacity-65"
+          >
+            Sold Out!
+          </button>
+        ) : !isLaunched ? (
           <div
             onClick={buyNow}
             className="flex px-10 justify-center items-center py-3 gap-5 hover:shadow-2xl capitalize text-white font-semibold bg-emerald-600 transition-all duration-200 ease-in-out rounded-md cursor-pointer"
@@ -219,7 +230,8 @@ const ProductDetails = ({
             <button>Buy Now</button>
           </div>
         )}
-        {isLaunched && (
+
+        {!isSoldOut && isLaunched && (
           <div
             onClick={toggleCart}
             className="flex justify-center px-10 items-center cursor-pointer gap-5 text-pink-600 font-semibold border-double capitalize border-[3px] py-3 rounded-md hover:shadow-2xl border-pink-600"
