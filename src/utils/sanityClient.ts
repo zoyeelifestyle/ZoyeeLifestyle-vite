@@ -8,6 +8,7 @@ export const client = createClient({
   apiVersion: import.meta.env.VITE_SANITY_API_VERSION,
   useCdn: true,
   token: import.meta.env.VITE_SANITY_TOKEN,
+  ignoreBrowserTokenWarning: true,
 });
 
 const builder = imageUrlBuilder(client);

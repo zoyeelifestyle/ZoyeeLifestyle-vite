@@ -20,7 +20,7 @@ export const NAVLINKS = [
 import Img1 from "../assets/category/img1.jpg";
 import Img2 from "../assets/category/img2.jpg";
 import Img3 from "../assets/category/img3.jpg";
-import { HelpingHand, Trophy, Truck } from "lucide-react";
+import { Award, Gift, Star } from "lucide-react";
 
 export const CATEGORY = [
   {
@@ -47,19 +47,19 @@ export const CATEGORY = [
 
 export const SPECIALBANNER = [
   {
-    Icon: Trophy,
-    title: "High Quality",
-    subtitle: "crafted from top materials",
+    Icon: Award,
+    title: "Exclusive Styles",
+    subtitle: "Curated fashion for every occasion",
   },
   {
-    Icon: Truck,
-    title: "Free Shipping",
-    subtitle: "Order over 150 $",
+    Icon: Star,
+    title: "Premium Fabrics",
+    subtitle: "Soft, breathable, and high-quality materials",
   },
   {
-    Icon: HelpingHand,
-    title: "24 / 7 Support",
-    subtitle: "Dedicated support",
+    Icon: Gift,
+    title: "Perfect Gifts",
+    subtitle: "Find the ideal dress for someone special",
   },
 ];
 

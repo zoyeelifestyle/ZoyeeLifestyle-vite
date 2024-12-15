@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Loader, Mail, MapPin, Phone } from "lucide-react";
 import RootLayout from "./RootLayout";
@@ -44,8 +45,8 @@ const Contact = () => {
     };
     try {
       // Use the Sanity client to create a new document in the database
-      const response = await client.create(doc);
-      console.log("Document created:", response);
+      await client.create(doc);
+      // console.log("Document created:", response);
       toast.success("Our Team Will Contact You Soon");
       // Optionally reset form or notify user of success
       setFormData({ firstName: "", lastName: "", email: "", message: "" });

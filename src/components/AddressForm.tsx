@@ -82,7 +82,7 @@ const AddressForm = ({
     } else {
       setIsLoading(true);
       try {
-        const updatedAddress = await client
+        await client
           .patch(addressId)
           .set({
             phone: phoneNumber,
@@ -97,7 +97,7 @@ const AddressForm = ({
           })
           .commit();
 
-        console.log("Address updated successfully:", updatedAddress);
+        // console.log("Address updated successfully:", updatedAddress);
         setIsPopupOpen(false);
         editAddressToUserData(
           {
@@ -177,7 +177,7 @@ const AddressForm = ({
           .append("addresses", [addressReference])
           .commit();
 
-        console.log("Address added and linked to user successfully!");
+        // console.log("Address added and linked to user successfully!");
         // Close the popup after successful submission
         addAddressToUserData(address);
         setIsPopupOpen(false);

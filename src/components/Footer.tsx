@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FOOTERHELP, FOOTERLINKS } from "@/constants/index.constants";
 import AuthLogo from "./AuthLogo";
@@ -20,10 +21,6 @@ const Footer = () => {
     };
     fetch();
   }, []);
-
-  useEffect(() => {
-    console.log("basic details", basicDetails);
-  }, [basicDetails]);
 
   return (
     <BackgroundBeamsWithCollision>

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import AuthLayout from "./AuthLayout";
 
 import { useFormik } from "formik";
@@ -14,8 +15,11 @@ const SignIn = () => {
   const { isLoading, signin, error, checkAuth } = authStore();
 
   useEffect(() => {
-    const data = checkAuth();
-    console.log(data);
+    const fetch = async () => {
+      await checkAuth();
+    };
+    fetch();
+    // console.log(data);
   }, []);
 
   const formik = useFormik({

@@ -65,7 +65,7 @@ const CartPage = () => {
     if (cartData.length !== allCartProductData.length) {
       toast.error("Please Select all the details");
     } else {
-      console.log("Cart Data", cartData);
+      // console.log("Cart Data", cartData);
       const encryptedData = CryptoJS.AES.encrypt(
         JSON.stringify(allCartProductData),
         "secret-key"

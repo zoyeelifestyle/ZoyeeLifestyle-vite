@@ -52,7 +52,7 @@ const AddressCard = ({
         `*[_type == "users" && references(*[_type == "address" && _id == $addressId]._id)]`,
         { addressId }
       );
-      console.log("Users to update:", users);
+      // console.log("Users to update:", users);
 
       // Update users' addresses by removing the deleted one
       for (const user of users) {
@@ -63,13 +63,13 @@ const AddressCard = ({
         await client
           .patch(user._id)
           .set({ addresses: updatedAddresses })
-          .commit()
-          .then((updatedUser) => console.log("Updated User:", updatedUser));
+          .commit();
+        // .then((updatedUser) => console.log("Updated User:", updatedUser));
       }
 
       // Delete the address from the database
-      const deleteResponse = await client.delete(addressId);
-      console.log("Deleted Address Response:", deleteResponse);
+      await client.delete(addressId);
+      // console.log("Deleted Address Response:", deleteResponse);
       toast.success("Address Removed Successfully");
 
       if (updateUserDataAfterDeletion) {
@@ -121,7 +121,7 @@ const AddressCard = ({
 
       {phone && (
         <p className="text-sm text-gray-600 capitalize">
-          Phone: <span>+91 {phone}</span>
+          Phone: <span>{phone}</span>
         </p>
       )}
 

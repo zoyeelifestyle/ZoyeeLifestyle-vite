@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
 import { useEffect, useState } from "react";
 import CheckoutProductCard from "./CheckoutProductCard";
 import toast from "react-hot-toast";
@@ -11,20 +10,21 @@ import { calculateDiscountedPrice } from "@/utils/helper";
 const CheckoutProduct = ({
   productData,
   total,
+  setTotal,
   setAppliedCoupon,
 }: {
   productData: any;
   total: number;
   setAppliedCoupon: (value: any) => void;
+  setTotal: (value: number) => void;
 }) => {
   const [allProductDatas, setAllProductDatas] = useState<any>([]);
 
-  const [totalPrice, setTotalPrice] = useState(0);
-
+  const [totalPrice, setTotalPrice] = useState<number>(total); // Initialize with 'total'
   const { isLoading, applyCoupon, user, getUserDataFromSanity } = authStore();
 
   const [couponCode, setCouponCode] = useState("");
-  const [couponData, setCouponData] = useState<any>("");
+  const [couponData, setCouponData] = useState<any>(null);
   const [userData, setUserData] = useState<any | null>(null);
 
   useEffect(() => {
@@ -32,7 +32,6 @@ const CheckoutProduct = ({
       if (user && user.id) {
         try {
           const data = await getUserDataFromSanity(user.id);
-
           setUserData(data[0]);
         } catch (error) {
           console.error("Error fetching user data:", error);
@@ -65,7 +64,7 @@ const CheckoutProduct = ({
         setAppliedCoupon(null);
       }
 
-      if (couponData && filterCoupon.length == 0) {
+      if (couponData && filterCoupon.length === 0) {
         setCouponData(couponData);
         setAppliedCoupon(couponData);
 
@@ -76,15 +75,14 @@ const CheckoutProduct = ({
               )
             : total - couponData?.discountValue;
 
-        setTotalPrice(newTotal);
+        setTotalPrice(newTotal); // Update the total price
       }
     }
   };
 
   useEffect(() => {
     setAllProductDatas(productData);
-    setTotalPrice(total);
-  }, []);
+  }, [productData]);
 
   return (
     <div>
@@ -107,7 +105,8 @@ const CheckoutProduct = ({
       </div>
 
       <p className="font-semibold tracking-wider text-xl">
-        Subtotal: <span className="text-pink-600">₹{total}</span>
+        Subtotal: <span className="text-pink-600">₹{total}</span>{" "}
+        {/* Use 'total' for Subtotal */}
       </p>
 
       <div className="flex items-center gap-2 mt-1">
@@ -119,7 +118,7 @@ const CheckoutProduct = ({
         </label>
       </div>
 
-      <div className="  flex">
+      <div className="flex">
         <input
           type="text"
           placeholder="Enter Coupon Code...."
@@ -152,13 +151,16 @@ const CheckoutProduct = ({
         <h3 className="text-lg sm:text-xl font-semibold text-gray-800 flex gap-2 items-center">
           Total:{" "}
           <span className="text-pink-600 flex gap-1 items-center">
-            <p className={`${couponData && "line-through"}`}>
-              ₹ {!couponData ? Math.round(total) : Math.round(totalPrice)}
+            <p className={`${couponData ? "line-through" : "hidden"}`}>
+              ₹ {Math.round(total)}{" "}
+              {/* Keep 'total' in line-through if coupon is applied */}
             </p>
             <p className="">
-              {couponData?.discountType === "percentage"
-                ? `₹ ${totalPrice}`
-                : couponData?.discountType === "fixed" && `₹ ${totalPrice}`}
+              {couponData?.discountType === "percentage" ||
+              couponData?.discountType === "fixed"
+                ? `₹ ${Math.round(totalPrice)}` // Show updated price after coupon
+                : `₹ ${Math.round(total)}`}{" "}
+              {/* Show original total if no coupon */}
             </p>
           </span>
         </h3>

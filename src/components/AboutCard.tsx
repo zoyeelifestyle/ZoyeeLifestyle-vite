@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { authStore } from "@/store/authStore";
 import { AnimatedTestimonials } from "./ui/animated-testimonials";
 import { useEffect } from "react";
@@ -15,7 +16,7 @@ export function AboutCard() {
   return (
     <>
       {aboutCard ? (
-        <AnimatedTestimonials testimonials={aboutCard} />
+        <AnimatedTestimonials autoplay testimonials={aboutCard} />
       ) : (
         <div className="">No Card Found</div>
       )}

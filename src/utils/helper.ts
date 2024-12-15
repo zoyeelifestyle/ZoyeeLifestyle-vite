@@ -75,29 +75,84 @@ export const toggleLocalStorageCart = (
 export const roundOffTwoDecimal = (price: number) => {
   return Math.round(price * 100) / 100;
 };
-
 export const blockToHtml = (data: any) => {
   if (!data || data.length === 0) {
-    return `<p class="no-terms">No Terms Available</p>`;
+    return `<p class="text-xl text-gray-500 italic text-center mt-10">No Terms Available</p>`;
   }
+
+  // console.log("Block to Html", data);
 
   return data
     .map((term: any) => {
       const contentHtml = term.content
         .map((block: any) => {
-          if (block._type === "block") {
-            return `
-              <p class="term-paragraph">
-                ${block.children
-                  .map((child: any) => (child.text ? child.text : ""))
-                  .join("")}
-              </p>`;
+          if (block._type === "block" && block.style) {
+            // Check the block style and return corresponding HTML
+            switch (block.style) {
+              case "h1":
+                return `
+                  <div class="mb-6">
+                    <h1 class="text-4xl font-bold text-gray-900 mb-4">${block.children
+                      .map((child: any) => (child.text ? child.text : ""))
+                      .join("")}</h1>
+                  </div>`;
+              case "h2":
+                return `
+                  <div class="mb-6">
+                    <h2 class="text-3xl font-semibold text-gray-800 mb-4">${block.children
+                      .map((child: any) => (child.text ? child.text : ""))
+                      .join("")}</h2>
+                  </div>`;
+              case "h3":
+                return `
+                  <div class="mb-6">
+                    <h3 class="text-xl font-medium text-gray-700 mb-4">${block.children
+                      .map((child: any) => (child.text ? child.text : ""))
+                      .join("")}</h3>
+                  </div>`;
+              case "h4":
+                return `
+                  <div class="mb-6">
+                    <h4 class="text-xl font-semibold text-gray-600 mb-4">${block.children
+                      .map((child: any) => (child.text ? child.text : ""))
+                      .join("")}</h4>
+                  </div>`;
+              case "h5":
+                return `
+                  <div class="mb-6">
+                    <h5 class="text-lg font-medium text-gray-600 mb-4">${block.children
+                      .map((child: any) => (child.text ? child.text : ""))
+                      .join("")}</h5>
+                  </div>`;
+              case "h6":
+                return `
+                  <div class="mb-6">
+                    <h6 class="text-base font-medium text-gray-600 mb-4">${block.children
+                      .map((child: any) => (child.text ? child.text : ""))
+                      .join("")}</h6>
+                  </div>`;
+              default:
+                // Default to normal paragraph style
+                return `
+                  <div class="mb-6">
+                    <p class="text-lg text-gray-700 leading-relaxed text-justify">
+                      ${block.children
+                        .map((child: any) => (child.text ? child.text : ""))
+                        .join("")}
+                    </p>
+                  </div>`;
+            }
           } else if (block._type === "image") {
             return `
-              <div class="term-image">
+              <div class="relative mb-6 text-center">
                 <img src="${block.imageUrl}" alt="${
               block.alt || "Image"
-            }" class="responsive-image" />
+            }" class="w-full h-auto rounded-lg transition-transform duration-300 ease-in-out transform hover:scale-105" />
+                ${
+                  block.caption
+                    ? `<figcaption class="text-sm text-gray-500 mt-2">${block.caption}</figcaption>`
+                    : ""
+                }
               </div>`;
           } else {
             return ``;
@@ -106,8 +161,8 @@ export const blockToHtml = (data: any) => {
         .join("");
 
       return `
-        <section class="term-section ">
-          <h2 class="term-title ">${term.title}</h2>
+        <section class="py-8 px-5 md:p-10  mb-10 border border-pink-600 rounded-lg bg-gray-50 shadow-2xl">
+          <h2 class="text-3xl font-semibold text-gray-800 mb-6 border-b-2 pb-2">${term.title}</h2>
           <div class="term-content">${contentHtml}</div>
         </section>
       `;
@@ -206,7 +261,7 @@ export const createOrder = async (
     totalPaidPrice: paymentData.amount,
     orderProducts: orderProducts,
     shippingAddress: validShippingDetails,
-    orderStatus: "ordered",
+    paymentStatus: "pending",
   });
 
   return order;
@@ -254,9 +309,10 @@ export const processOrder = async (data: any) => {
       form.appendChild(input);
     });
     document.body.appendChild(form);
-    form.submit();
+    // form.submit();
+    console.log("foem", form);
 
-    console.log("Order created successfully:", order);
+    // console.log("Order created successfully:", order);
   } catch (error: any) {
     console.error("Error creating order", error);
   }

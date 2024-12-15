@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import RootLayout from "./RootLayout";
 import { authStore } from "@/store/authStore";
 
@@ -16,7 +16,6 @@ const UserProfile = () => {
   const { user, getUserDataFromSanity, isLoading, signout } = authStore();
   const [userData, setUserData] = useState<any | null>(null);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const imageTag = useRef<HTMLInputElement | null>(null);
 
   // const [profileUrl, setProfileUrl] = useState<string | null>("");
 
@@ -45,7 +44,7 @@ const UserProfile = () => {
       if (user && user.id) {
         try {
           const data = await getUserDataFromSanity(user.id);
-          console.log("data", data);
+          // console.log("data", data);
           setUserData(data);
           // setProfileUrl(data?.[0]?.profile || null); // Use optional chaining here
         } catch (error) {
@@ -211,7 +210,6 @@ const UserProfile = () => {
           )}
         </div>
       </div>
-      <input type="file" ref={imageTag} className="hidden" />
     </RootLayout>
   );
 };

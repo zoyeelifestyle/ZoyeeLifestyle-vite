@@ -1,23 +1,35 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useEffect, useState } from "react";
 import RootLayout from "./RootLayout";
 import { authStore } from "@/store/authStore";
 import "../../App.css";
+import { blockToHtml } from "@/utils/helper";
 
 const PrivacyPolicy = () => {
-  const { getPrivacyData, privacyData } = authStore();
+  const { getPolicies } = authStore();
+
+  const [data, setData] = useState<any>([]);
 
   useEffect(() => {
-    getPrivacyData();
+    const fetch = async () => {
+      const res = await getPolicies();
+      const filterReturnPolicy = res.filter(
+        (item: any) => item?.title === "Privacy Policy"
+      );
+      const finalData = await blockToHtml(filterReturnPolicy);
+      setData(finalData);
+    };
+    fetch();
   }, []);
 
   return (
     <RootLayout>
-      {privacyData ? (
-        <div className="px-5">
+      {data ? (
+        <div className="px-5 my-5">
           <div
             className="shadow-2xl rounded-full"
-            dangerouslySetInnerHTML={{ __html: privacyData }}
+            dangerouslySetInnerHTML={{ __html: data }}
           />
         </div>
       ) : (

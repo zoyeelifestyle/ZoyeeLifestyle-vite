@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import { removeExtra } from "@/utils/helper";
+
 const OrderCard = ({ details }: { details: any }) => {
   return (
     <div className="bg-gradient-to-r h-fit shadow-xl rounded-lg overflow-hidden p-6 mb-6 hover:scale-105 transform transition-all duration-300 ease-in-out">
@@ -57,7 +59,9 @@ const OrderCard = ({ details }: { details: any }) => {
                     alt={item?.name}
                   />
                   <div className="flex-1">
-                    <p className="font-semibold text-gray-800">{item?.name}</p>
+                    <p className="font-semibold text-gray-800">
+                      {removeExtra(item?.name)}
+                    </p>
                     <div className="text-sm text-gray-600 flex gap-1 items-center">
                       <p className="">{item?.size}</p>|
                       <div

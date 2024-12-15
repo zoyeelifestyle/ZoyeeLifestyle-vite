@@ -18,7 +18,7 @@ const SignUp = () => {
     validationSchema: signUpFormSchema,
     onSubmit: async (values) => {
       await signup(values.username, values.email, values.password);
-      console.log(values);
+      // console.log(values);
     },
   });
 

@@ -47,7 +47,7 @@ const DirectCheckoutProduct = ({
     if (couponCode.length === 0) {
       toast.error("Please Enter Coupon");
     } else {
-      console.log("coupon");
+      // console.log("coupon");
 
       const couponData = await applyCoupon(couponCode);
       const couponId = couponData?._id;

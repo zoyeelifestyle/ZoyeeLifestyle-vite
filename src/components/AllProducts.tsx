@@ -21,7 +21,7 @@ const AllProducts = () => {
   }, [fetchAllProducts]);
 
   useEffect(() => {
-    console.log("Product", allProducts);
+    // console.log("Product", allProducts);
   }, [allProducts]);
 
   // Animation variants for the section and the product cards

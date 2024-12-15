@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { authStore } from "@/store/authStore";
 import { useEffect, useState } from "react";
 import SketetonWrapper from "./SkeletonWrapper";

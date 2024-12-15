@@ -38,7 +38,7 @@ const Profile = () => {
     const fetch = async () => {
       if (user?.email) {
         const data = await getUserOtherData(user.id);
-        console.log("userdata", data);
+        // console.log("userdata", data);
 
         setUserDocId(data[0]._id);
 

@@ -19,10 +19,11 @@ const Category = () => {
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.5, delay: 0.2 }}
       >
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ad aliquam
-        laudantium, odio laboriosam pariatur temporibus similique alias maxime
-        praesentium ullam natus ex fugiat, debitis qui dolores nesciunt aperiam
-        exercitationem porro.
+        Explore our curated collection of stylish dresses, designed to make
+        every woman feel confident and beautiful. From elegant evening wear to
+        casual day dresses, we offer a range of options to suit any occasion.
+        Embrace the latest fashion trends and discover your perfect fit, all
+        while enjoying exceptional comfort and quality.
       </motion.p>
 
       <div className=" md:px-28 ">

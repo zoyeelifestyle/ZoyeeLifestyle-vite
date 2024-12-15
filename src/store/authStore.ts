@@ -7,6 +7,7 @@ import { supabase } from "../utils/supabase";
 
 import axios from "axios";
 import toast from "react-hot-toast";
+// import toast from "react-hot-toast";
 
 interface AuthStore {
   user: any;
@@ -17,6 +18,7 @@ interface AuthStore {
   userToken: any;
   isCheckingAuth: boolean;
 
+  getPolicies: () => Promise<any>;
   checkAuth: () => Promise<string | void>;
   signup: (username: string, email: string, password: string) => Promise<void>;
   signin: (email: string, password: string) => Promise<void>;
@@ -531,6 +533,37 @@ export const authStore = create<AuthStore>((set) => ({
     }
   },
 
+  getPolicies: async () => {
+    set({ isLoading: true, error: null });
+    try {
+      const query = `
+      *[_type == "policies"] {
+  title,
+  content[]{
+    ...,
+    _type == "image" => {
+      ...,
+      "alt": alt
+    }
+  }
+}
+
+      `;
+
+      const response = await client.fetch(query);
+      set({ isLoading: false });
+
+      return response;
+    } catch (error: any) {
+      set({
+        isLoading: false,
+        error: error.message || "Error Fetching Refund Policy",
+      });
+
+      throw error;
+    }
+  },
+
   getAboutCard: async () => {
     set({ isLoading: true, error: null });
     try {
@@ -541,7 +574,7 @@ export const authStore = create<AuthStore>((set) => ({
       "imageUrl": image.asset->url
     }`;
       const response = await client.fetch(getAboutCardQuery);
-      console.log("response", response);
+      // console.log("response", response);
       set({ isLoading: false, aboutCard: response });
     } catch (error: any) {
       set({
@@ -629,7 +662,7 @@ export const authStore = create<AuthStore>((set) => ({
         `*[_type == "users" && references(*[_type == "address" && _id == $addressId]._id)]`,
         { addressId }
       );
-      console.log("Users to update:", users);
+      // console.log("Users to update:", users);
 
       // Remove the reference to the deleted address from each user's addresses array
       for (const user of users) {
@@ -641,13 +674,13 @@ export const authStore = create<AuthStore>((set) => ({
         await client
           .patch(user._id)
           .set({ addresses: updatedAddresses })
-          .commit()
-          .then((updatedUser) => console.log("Updated User:", updatedUser));
+          .commit();
+        // .then((updatedUser) => console.log("Updated User:", updatedUser));
       }
 
       // Deleting the address document using the correct addressId
-      const deleteResponse = await client.delete(addressId);
-      console.log("Deleted Address Response:", deleteResponse);
+      await client.delete(addressId);
+      // console.log("Deleted Address Response:", deleteResponse);
 
       set({ isLoading: false });
       return "Success";
@@ -732,10 +765,10 @@ name, image, size, color, quantity,productId
   updateUserData: async (userId, newData) => {
     set({ isLoading: true, error: null });
     try {
-      console.log("new Data", newData);
+      // console.log("new Data", newData);
 
-      const response = await client.patch(userId).set(newData).commit();
-      console.log("update User", response);
+      await client.patch(userId).set(newData).commit();
+      // console.log("update User", response);
     } catch (error: any) {
       set({ isLoading: false, error: error.message || "Error Updating User" });
       throw error;
@@ -758,7 +791,7 @@ name, image, size, color, quantity,productId
       // console.log("final", finalData);
 
       const response = await axios.post(
-        "https://payu-payment-gateway.onrender.com/api/create-payu-order",
+        "http://localhost:5000/api/create-payu-order",
         {
           price: finalData?.totalPrice,
           productName: finalData?.productName,
@@ -771,16 +804,15 @@ name, image, size, color, quantity,productId
         }
       );
       if (response.data.paymentData && response.data.payUrl) {
-        // console.log("sdsdsfsf", response.data);
-        console.log("reponse data", response.data.paymentData);
-
         await processOrder(response.data);
       } else {
         toast.error("Error initiating payment. Please try again.");
       }
 
+      // console.log("payamenr Data", response.data);/
+
       set({ isLoading: false });
-      // console.log("Payment", response.data);
+      console.log("Payment", response.data);
     } catch (error: any) {
       set({ isLoading: false, error: error.message || "Error Buying Product" });
       throw error;
