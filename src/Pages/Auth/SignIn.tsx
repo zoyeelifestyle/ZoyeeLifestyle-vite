@@ -19,7 +19,6 @@ const SignIn = () => {
       await checkAuth();
     };
     fetch();
-    // console.log(data);
   }, []);
 
   const formik = useFormik({
@@ -43,16 +42,19 @@ const SignIn = () => {
         className="flex justify-center items-center bg-gray-100 rounded-lg shadow-xl"
       >
         <div className="w-full max-w-md bg-white shadow-lg rounded-lg p-8">
-          <h1 className="text-3xl font-bold text-center mb-4">Welcome Back!</h1>
-          <p className="text-gray-500 text-center mb-6 capitalize font-medium">
-            Sign in to <span className="text-pink-600">Zoyee LifeStyle</span>
+          <h1 className="text-3xl font-bold text-center mb-2">Welcome Back!</h1>
+          <p className="text-gray-500 text-center mb-6 text-sm capitalize font-medium">
+            Sign in to{" "}
+            <Link to="/">
+              <span className="text-pink-600">Zoyee LifeStyle</span>
+            </Link>
           </p>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
+                className="block text-sm font-semibold text-gray-700"
               >
                 Email Address<span className="text-red-500">*</span>
               </label>
@@ -62,7 +64,7 @@ const SignIn = () => {
                 placeholder="Enter your email"
                 value={values.email}
                 onChange={handleChange}
-                className="w-full mt-1 px-4 py-2 border rounded-md shadow-sm focus:ring-primary focus:border-primary sm:text-sm"
+                className="w-full mt-1 px-4 py-2 border text-gray-600  focus:ring-1 outline-none rounded-md shadow-sm focus:ring-pink-600 focus:border-pink-600 text-xs md:text-sm font-semibold"
               />
               {touched.email && errors.email && (
                 <p className="mt-1 text-red-500 text-sm">{errors.email}</p>
@@ -71,7 +73,7 @@ const SignIn = () => {
             <div>
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-gray-700"
+                className="block text-sm font-semibold text-gray-700"
               >
                 Password<span className="text-red-500">*</span>
               </label>
@@ -81,7 +83,7 @@ const SignIn = () => {
                 placeholder="Enter your password"
                 value={values.password}
                 onChange={handleChange}
-                className="w-full mt-1 px-4 py-2 border rounded-md shadow-sm focus:ring-primary focus:border-primary sm:text-sm"
+                className="w-full mt-1 px-4 py-2 border text-gray-600  focus:ring-1 outline-none rounded-md shadow-sm focus:ring-pink-600 focus:border-pink-600 text-xs md:text-sm font-semibold"
               />
               {touched.password && errors.password && (
                 <p className="mt-1 text-red-500 text-sm">{errors.password}</p>
@@ -105,7 +107,10 @@ const SignIn = () => {
           <div className="text-center mt-4">
             <p className="text-sm text-gray-500">
               Don&apos;t have an account?{" "}
-              <Link to="/sign-up" className="text-pink-600 hover:underline">
+              <Link
+                to="/sign-up"
+                className="text-pink-600 font-semibold hover:underline"
+              >
                 Sign Up
               </Link>
             </p>

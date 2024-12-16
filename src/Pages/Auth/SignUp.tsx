@@ -18,7 +18,6 @@ const SignUp = () => {
     validationSchema: signUpFormSchema,
     onSubmit: async (values) => {
       await signup(values.username, values.email, values.password);
-      // console.log(values);
     },
   });
 
@@ -154,7 +153,10 @@ const SignUp = () => {
           >
             <p className="text-sm md:text-base text-gray-500">
               Already have an account?{" "}
-              <Link to="/sign-in" className="text-pink-600 hover:underline">
+              <Link
+                to="/sign-in"
+                className="text-pink-600 hover:underline font-semibold"
+              >
                 Sign In
               </Link>
             </p>

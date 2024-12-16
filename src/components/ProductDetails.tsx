@@ -224,7 +224,7 @@ const ProductDetails = ({
         ) : (
           <div
             onClick={buyNow}
-            className="flex px-10 justify-center items-center py-3 gap-5 hover:shadow-2xl capitalize text-white font-semibold bg-pink-600 rounded-md cursor-pointer"
+            className="flex px-10 justify-center items-center py-3 gap-5 hover:shadow-2xl transition-all duration-200 ease-in-out capitalize text-white font-semibold bg-pink-600 rounded-md cursor-pointer"
           >
             <ShoppingBag />
             <button>Buy Now</button>
@@ -234,7 +234,7 @@ const ProductDetails = ({
         {!isSoldOut && isLaunched && (
           <div
             onClick={toggleCart}
-            className="flex justify-center px-10 items-center cursor-pointer gap-5 text-pink-600 font-semibold border-double capitalize border-[3px] py-3 rounded-md hover:shadow-2xl border-pink-600"
+            className="flex justify-center px-10 items-center cursor-pointer transition-all duration-200 ease-in-out gap-5 text-pink-600 font-semibold border-double capitalize border-[3px] py-3 rounded-md hover:shadow-2xl border-pink-600"
           >
             <ShoppingCart />
             <button>
