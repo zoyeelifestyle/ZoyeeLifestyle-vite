@@ -35,7 +35,7 @@ const UserProfile = () => {
       if (user && user.id) {
         try {
           const data = await getUserDataFromSanity(user.id);
-          console.log("data", data);
+          // console.log("data", data);
           setUserData(data);
         } catch (error) {
           console.error("Error fetching user data:", error);

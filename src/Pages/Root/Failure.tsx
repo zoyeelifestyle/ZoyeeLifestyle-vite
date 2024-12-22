@@ -1,14 +1,8 @@
 import { Link } from "react-router-dom";
 import RootLayout from "./RootLayout";
-import { motion } from "framer-motion"; // Import Framer Motion for animation
-import { useEffect } from "react";
+import { motion } from "framer-motion";
 
 const Failure = () => {
-  useEffect(() => {
-    console.log("Success Page Loaded");
-    console.log("Current Path:", window.location.pathname);
-    console.log("Full URL:", window.location.href);
-  }, []);
   return (
     <RootLayout>
       <div className="flex justify-center items-center min-h-screen bg-gray-100 p-4">

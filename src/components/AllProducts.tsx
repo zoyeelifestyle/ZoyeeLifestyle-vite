@@ -20,9 +20,9 @@ const AllProducts = () => {
     fetchdata();
   }, [fetchAllProducts]);
 
-  useEffect(() => {
-    console.log("All PRO", allProducts);
-  }, [allProducts]);
+  // useEffect(() => {
+  //   console.log("All PRO", allProducts);
+  // }, [allProducts]);
 
   // Animation variants for the section and the product cards
   const sectionVariants = {

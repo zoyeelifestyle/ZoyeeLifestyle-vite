@@ -338,8 +338,8 @@ export const processOrder = async (data: any) => {
     });
     document.body.appendChild(form);
     form.submit();
-    console.log("foem", form);
-    console.log("Order created successfully:", order);
+    // console.log("foem", form);
+    // console.log("Order created successfully:", order);
   } catch (error: any) {
     console.error("Error creating order", error);
   }

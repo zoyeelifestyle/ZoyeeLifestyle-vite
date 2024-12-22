@@ -22,10 +22,6 @@ const ReturnRefund = () => {
     fetch();
   }, []);
 
-  useEffect(() => {
-    console.log("Refund Policy", data);
-  }, [data]);
-
   return (
     <RootLayout>
       {data ? (

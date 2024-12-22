@@ -168,9 +168,9 @@ const ShippingDetails = () => {
     }
   }, [param]);
 
-  useEffect(() => {
-    console.log("Product  Data", productData);
-  }, [productData]);
+  // useEffect(() => {
+  //   console.log("Product  Data", productData);
+  // }, [productData]);
 
   // Total calculation whenever `productData` changes
   useEffect(() => {
