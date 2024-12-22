@@ -117,7 +117,7 @@ export const authStore = create<AuthStore>((set) => ({
           isAuthenticated: false,
           isLoading: false,
         });
-        console.log("No authenticated user found.");
+        // console.log("No authenticated user found.");
         return "No authenticated user found.";
       }
 
@@ -128,7 +128,7 @@ export const authStore = create<AuthStore>((set) => ({
         isCheckingAuth: false,
         isLoading: false,
       });
-      console.log("Authenticated user:", data.user);
+      // console.log("Authenticated user:", data.user);
     } catch (error: any) {
       set({
         isCheckingAuth: false,
@@ -161,7 +161,7 @@ export const authStore = create<AuthStore>((set) => ({
       const existingUser = await client.fetch(existingUserQuery, { userId });
 
       if (existingUser) {
-        console.log("User already exists in Sanity");
+        // console.log("User already exists in Sanity");
         set({
           isLoading: false,
           user: data.user,
@@ -181,7 +181,7 @@ export const authStore = create<AuthStore>((set) => ({
       };
 
       const createdUser = await client.create(newUserDoc); // Create new user in Sanity
-      console.log("New user created in Sanity:", createdUser);
+      // console.log("New user created in Sanity:", createdUser);
 
       // 5. Set the state after successful sign-up
       set({
@@ -222,7 +222,7 @@ export const authStore = create<AuthStore>((set) => ({
         error: null,
       });
 
-      console.log("Sign-in successful:", data.user);
+      // console.log("Sign-in successful:", data.user);
     } catch (error: any) {
       set({
         isLoading: false,
@@ -249,7 +249,7 @@ export const authStore = create<AuthStore>((set) => ({
         error: null,
       });
 
-      console.log("Sign-out successful.");
+      // console.log("Sign-out successful.");
     } catch (error: any) {
       set({
         isLoading: false,
@@ -461,7 +461,7 @@ export const authStore = create<AuthStore>((set) => ({
 
       const otherData = await client.fetch(otherDataQuery);
       const html = await blockToHtml(otherData);
-      console.log("otherdata", otherData);
+      // console.log("otherdata", otherData);
 
       set({ isLoading: false, otherData: html });
     } catch (error: any) {
@@ -835,7 +835,7 @@ name, image, size, color, quantity,productId
       // console.log("payamenr Data", response.data);/
 
       set({ isLoading: false });
-      console.log("Payment", response.data);
+      // console.log("Payment", response.data);
     } catch (error: any) {
       set({ isLoading: false, error: error.message || "Error Buying Product" });
       throw error;
@@ -871,7 +871,7 @@ name, image, size, color, quantity,productId
       `;
 
       const orderDetails = await client.fetch(fetchOrderQuery, { orderId });
-      console.log("order response", orderDetails);
+      // console.log("order response", orderDetails);
       set({ isLoading: false });
       return orderDetails;
     } catch (error: any) {

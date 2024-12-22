@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import RootLayout from "./RootLayout";
 import { authStore } from "@/store/authStore";
 
-// import Image from "../../assets/category/img1.jpg";
 import SketetonWrapper from "@/components/SkeletonWrapper";
 import { LogOut, Plus } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
@@ -14,7 +13,7 @@ import Order from "./Order";
 
 const UserProfile = () => {
   const { user, getUserDataFromSanity, isLoading, signout } = authStore();
-  const [userData, setUserData] = useState<any | null>(null);
+  const [userData, setUserData] = useState<any | null>([]);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const [selectedFormData, setSelectedFormData] = useState({
@@ -38,10 +37,9 @@ const UserProfile = () => {
           const data = await getUserDataFromSanity(user.id);
           console.log("data", data);
           setUserData(data);
-          // setProfileUrl(data?.[0]?.profile || null); // Use optional chaining here
         } catch (error) {
           console.error("Error fetching user data:", error);
-          setUserData(null);
+          setUserData([]);
         }
       }
     };
@@ -72,7 +70,6 @@ const UserProfile = () => {
 
   const updateUserDataAfterDeletion = (deletedAddressId: string) => {
     setUserData((prevUserData: any) => {
-      // Remove the deleted address from the user data
       const updatedUserData = { ...prevUserData };
       updatedUserData[0].addresses = updatedUserData[0].addresses.filter(
         (address: any) => address._id !== deletedAddressId
@@ -90,31 +87,12 @@ const UserProfile = () => {
               {userData ? (
                 <div className="flex flex-col md:flex-row justify-between items-center md:items-start gap-4">
                   <div className="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto">
-                    {/* <div className="relative">
-                      {profileUrl ? (
-                        <img
-                          src={Image}
-                          alt="profile"
-                          className="w-24 h-24 object-cover rounded-full cursor-pointer shadow-xl"
-                        />
-                      ) : (
-                        <User className="w-24 h-24 rounded-full border-black cursor-pointer shadow-lg text-pink-600 border p-4" />
-                      )}
-                      <div
-                        onClick={openLocal}
-                        className="absolute bottom-0 hover:bg-pink-600 border-pink-600 border hover:text-white duration-300 transition-all ease-in-out right-0 cursor-pointer text-pink-600 bg-red-100 p-2 rounded-full"
-                      >
-                        <PencilIcon className="w-3 h-3" />
-                      </div>
-                    </div> */}
                     <div className="text-center md:text-left">
                       <h3 className="text-xl font-semibold">
                         {userData[0]?.username || "User"}{" "}
-                        {/* Fallback for undefined */}
                       </h3>
                       <p className="text-sm font-semibold text-gray-500">
                         {userData[0]?.email || "No email available"}{" "}
-                        {/* Fallback */}
                       </p>
                     </div>
                   </div>

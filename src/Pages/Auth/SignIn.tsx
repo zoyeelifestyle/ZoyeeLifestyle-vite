@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { authStore } from "@/store/authStore";
 import { Loader2 } from "lucide-react";
 import { useEffect } from "react";
+import AuthLogo from "@/components/AuthLogo";
 
 const SignIn = () => {
   const { isLoading, signin, error, checkAuth } = authStore();
@@ -42,8 +43,13 @@ const SignIn = () => {
         className="flex justify-center items-center bg-gray-100 rounded-lg shadow-xl"
       >
         <div className="w-full max-w-md bg-white shadow-lg rounded-lg p-8">
+          <Link to={"/"}>
+            <div className="flex cursor-pointer items-center justify-center pb-4">
+              <AuthLogo width={120} height={10} />
+            </div>
+          </Link>
           <h1 className="text-3xl font-bold text-center mb-2">Welcome Back!</h1>
-          <p className="text-gray-500 text-center mb-6 text-sm capitalize font-medium">
+          <p className="text-gray-500 text-center mb-7 text-sm capitalize font-medium">
             Sign in to{" "}
             <Link to="/">
               <span className="text-pink-600">Zoyee LifeStyle</span>

@@ -5,6 +5,7 @@ import { signUpFormSchema } from "@/schemas/schema";
 import { Link } from "react-router-dom";
 import { authStore } from "@/store/authStore";
 import { Loader2 } from "lucide-react";
+import AuthLogo from "@/components/AuthLogo";
 
 const SignUp = () => {
   const { signup, isLoading } = authStore();
@@ -50,6 +51,11 @@ const SignUp = () => {
           }}
           className="w-full bg-white shadow-lg rounded-lg p-8 max-w-md"
         >
+          <Link to={"/"}>
+            <div className="flex cursor-pointer items-center justify-center pb-4">
+              <AuthLogo width={120} height={10} />
+            </div>
+          </Link>
           <h1 className="text-2xl md:text-3xl font-bold text-center mb-4">
             Create an Account
           </h1>

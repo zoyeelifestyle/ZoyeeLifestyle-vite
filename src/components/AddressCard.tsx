@@ -68,7 +68,7 @@ const AddressCard = ({
       }
 
       // Delete the address from the database
-      await client.delete(addressId);
+      // await client.delete(addressId);
       // console.log("Deleted Address Response:", deleteResponse);
       toast.success("Address Removed Successfully");
 

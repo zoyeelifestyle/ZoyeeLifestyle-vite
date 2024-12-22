@@ -53,8 +53,11 @@ const Navbar = () => {
       className="w-full sticky z-[9999] top-0 left-0   flex justify-between items-center px-6 py-4 lg:px-12 lg:py-4 bg-white shadow-md"
     >
       {/* Logo Section */}
-      <Link to="/">
-        <AuthLogo width={100} height={30} />
+      <Link to="/" className="block md:hidden">
+        <AuthLogo width={60} height={30} />
+      </Link>
+      <Link to="/" className="hidden md:block">
+        <AuthLogo width={90} height={30} />
       </Link>
 
       {/* Navigation Links */}
