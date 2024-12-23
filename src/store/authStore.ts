@@ -7,7 +7,6 @@ import { supabase } from "../utils/supabase";
 
 import axios from "axios";
 import toast from "react-hot-toast";
-// import toast from "react-hot-toast";
 
 interface AuthStore {
   user: any;
@@ -150,6 +149,7 @@ export const authStore = create<AuthStore>((set) => ({
       });
 
       if (error) {
+        toast.error(error.message);
         throw error;
       }
 
@@ -211,6 +211,7 @@ export const authStore = create<AuthStore>((set) => ({
       });
 
       if (error) {
+        toast.error(error.message);
         throw error;
       }
 

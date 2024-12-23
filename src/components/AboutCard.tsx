@@ -16,7 +16,7 @@ export function AboutCard() {
   return (
     <>
       {aboutCard ? (
-        <AnimatedTestimonials autoplay testimonials={aboutCard} />
+        <AnimatedTestimonials testimonials={aboutCard} />
       ) : (
         <div className="">No Card Found</div>
       )}

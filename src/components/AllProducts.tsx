@@ -52,7 +52,7 @@ const AllProducts = () => {
         <>
           <div className="w-full flex justify-center items-center !mt-10">
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-7 px-5 md:px-16">
-              {allProducts?.map((item) => {
+              {allProducts?.slice(0, 8).map((item) => {
                 return (
                   <SketetonWrapper key={item?._id} isLoading={isLoading}>
                     <motion.div

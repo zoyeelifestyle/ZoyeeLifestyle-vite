@@ -43,10 +43,10 @@ const Footer = () => {
 
         <div className="flex flex-col gap-3 items-start">
           <div className="hidden lg:block">
-            <AuthLogo width={300} height={70} />
+            <AuthLogo width={200} height={40} />
           </div>
           <div className="flex lg:hidden">
-            <AuthLogo width={250} height={60} />
+            <AuthLogo width={200} height={40} />
           </div>
           <address className="">
             <SketetonWrapper isLoading={isLoading}>
